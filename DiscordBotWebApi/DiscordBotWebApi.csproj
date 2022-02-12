@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Bot\Новая папка\**" />
+    <Content Remove="Bot\Новая папка\**" />
+    <EmbeddedResource Remove="Bot\Новая папка\**" />
+    <None Remove="Bot\Новая папка\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Discord.Net" Version="3.2.1" />
+    <PackageReference Include="Discord.Net.WebSocket" Version="3.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Services\Services.csproj" />
+  </ItemGroup>
+</Project>
