@@ -17,7 +17,7 @@ namespace Services.Commands
             await channel.SendMessageAsync(data.ToString());
         }
 
-        public override void ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
+        public override void Execute(DiscordSocketClient client, SocketSlashCommand msg)
         {
             throw new NotImplementedException();
         }

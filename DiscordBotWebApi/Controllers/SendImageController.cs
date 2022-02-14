@@ -18,14 +18,15 @@ namespace DiscordBotWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendImage(string url) 
+        public IActionResult SendImage(string url)
         {
             try
             {
-                await _commandsHandler.Handler(new SendImageCommand(), url);
+                _commandsHandler.Handler(new SendImageCommand(), url);
             }
-            catch (Exception) { 
-            
+            catch (Exception)
+            {
+
             }
             return Ok();
         }

@@ -1,17 +1,15 @@
-﻿using Discord;
-using Discord.Net;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
 using Services.Models;
 
-namespace Services.Commands
+namespace Services.Commands.RandomCommands
 {
-    public class RandomCommand : DiscordComand
+    public class RandomCommand : DiscordSlashCommand
     {
         public override string Name => "random";
 
         readonly Random _random = new();
 
-        public override void ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
+        public override void Execute(DiscordSocketClient client, SocketSlashCommand msg)
         {
             var min = 0;
 

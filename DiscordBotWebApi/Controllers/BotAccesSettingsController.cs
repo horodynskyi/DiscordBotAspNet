@@ -19,7 +19,7 @@ namespace DiscordBotWebApi.Controllers
         [HttpPost("SetAdminAccount")]
         public IActionResult SetAdminAccount(string id)
         {
-            _adminService.SetAdminData(id);
+            AdminService.SetAdminData(id);
             return Ok();
         }
     }

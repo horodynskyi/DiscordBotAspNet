@@ -1,4 +1,5 @@
 ﻿using Discord.WebSocket;
+using Interfaces;
 using Services;
 using Services.Commands;
 using Services.Models;
@@ -15,18 +16,33 @@ namespace DiscordBotWebApi.Bot
             _client = client;
         }
 
-        public async Task Handler(SocketSlashCommand commandData)
+        public Task Handler(SocketSlashCommand commandData)
         {
             var command = commandServices.GetComand(commandData);
 
             if (command != null) 
             {
-                command.ExecuteAsync(_client, commandData);
+                command.Execute(_client, commandData);
                 WriteToHistory($"User {commandData.User.Username} run command named **{command.Name}**");
             }
+
+            return Task.CompletedTask;
         }
 
-        public async Task Handler(ICommand command, object data)
+        public Task Handler(SocketMessage msg)
+        {
+            var command = commandServices.GetComand(msg);
+
+            if (command != null)
+            {
+                command.Execute(_client, msg);
+                WriteToHistory($"User {msg.Author.Username} run command named **{command.Name}**");
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public void Handler(ICommand command, object data)
         {
             if (command != null) 
             {

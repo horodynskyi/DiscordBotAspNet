@@ -1,11 +1,7 @@
 ﻿using Discord.WebSocket;
+using Interfaces;
 using Services.Commands;
-using Services.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Services.Commands.RandomCommands;
 
 namespace Services
 {
@@ -17,10 +13,12 @@ namespace Services
         {
             _commands = new List<ICommand>{
                new RandomCommand(),
+               new RollCommands(),
                new BulkDelete(),
                new GetHistoryCommand(),
+               new FetchCalendarDataCommand(),
+               new SetupSlashCommands(),
                new SendImageCommand(),
-               new FetchCalendarData(),
             };
         }
 
@@ -30,7 +28,19 @@ namespace Services
             {
                 if (command.Contains(msg))
                 {
-                    command.SetParameters();
+                    return command;
+                }
+            }
+
+            return null;
+        }
+
+        public ICommand GetComand(SocketMessage msg)
+        {
+            foreach (var command in _commands)
+            {
+                if (command.Contains(msg))
+                {
                     return command;
                 }
             }

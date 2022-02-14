@@ -18,8 +18,8 @@ namespace DiscordBotWebApi.Bot
 		{
 			if (_client != null)
 			{
-				Random random = new Random();
-				var channel = _client.GetChannel(874217842650796032) as SocketTextChannel;
+				Random random = new();
+				var channel = _client.GetChannel(942780457232257044) as SocketTextChannel;
 				await channel.SendMessageAsync($"Это же тот самый {strings[random.Next(strings.Count)]} {user.Mention} добро пожаловать на {channel.Guild.Name}");
 			}
 		}

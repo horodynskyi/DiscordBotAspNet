@@ -13,7 +13,7 @@ namespace DiscordBotWebApi.Bot
             var client = new DiscordSocketClient();
             _client = client;
             client.Log += Log;
-            //client.MessageReceived += notSlashCommand;
+            client.MessageReceived += new CommandsHandler(client).Handler;
             client.UserJoined += new OnMemberJoinHandler(client).MessageSender;
             client.SetGameAsync("Fisting ass in the dungeon");
             client.LoginAsync(TokenType.Bot, configuration.GetValue<String>("discordBotToken"));
@@ -23,12 +23,6 @@ namespace DiscordBotWebApi.Bot
             services.AddSingleton(client);
 
             return services;
-        }
-
-        private async static Task notSlashCommand(SocketMessage msg)
-        {
-            var z = new SetupSlashCommands();
-            z.Execute(_client, msg);
         }
 
         private static Task Log(LogMessage msg)

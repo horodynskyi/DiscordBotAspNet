@@ -11,16 +11,24 @@ using System.Threading.Tasks;
 
 namespace Services.Commands
 {
-    public class FetchCalendarData : DiscordComand
+    public class FetchCalendarDataCommand : DiscordSlashCommand
     {
-        public override string Name => "/send calendar";
+        public override string Name => "sendcalendar";
 
-        public override async void ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
+        public override async void Execute(DiscordSocketClient client, SocketSlashCommand msg)
         {
             var shikimoryService = new ShikimoryService();
-            var calendars = new List<Calendar>();
+            var shikimoryCalendarFetchParametr = msg.Data.Options.First().Value switch
+            {
+                "today" => ShikimoryCalendarFetchParametr.Today,
+                "Day of week" => ShikimoryCalendarFetchParametr.DayOfWeek,
+                "Day of month" => ShikimoryCalendarFetchParametr.DayOfMonth,
+                _ => ShikimoryCalendarFetchParametr.Today,
+            };
 
-            calendars = (await shikimoryService.FetchShikimoryCalendarData(ShikimoryCalendarFetchParametr.Today)).ToList();
+            var day = msg.Data.Options.ElementAt(1).Value;
+
+            var calendars = (await shikimoryService.FetchShikimoryCalendarData(shikimoryCalendarFetchParametr, int.Parse(day.ToString()))).ToList();
 
             foreach (var calendar in calendars)
             {

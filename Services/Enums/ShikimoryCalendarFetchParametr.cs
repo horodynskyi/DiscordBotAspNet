@@ -8,6 +8,8 @@ namespace Services.Enums
 {
     public enum ShikimoryCalendarFetchParametr
     {
-        Today
+        Today,
+        DayOfWeek,
+        DayOfMonth
     }
 }

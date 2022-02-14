@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Services.Commands
 {
-    public class GetHistoryCommand : DiscordComand
+    public class GetHistoryCommand : DiscordSlashCommand
     {
         public override string Name => "command history";
 
@@ -18,7 +18,7 @@ namespace Services.Commands
             throw new NotImplementedException();
         }
 
-        public override async void ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
+        public override async void Execute(DiscordSocketClient client, SocketSlashCommand msg)
         {
             using (StreamReader r = new StreamReader("..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\CommandHistory.txt"))
             {
