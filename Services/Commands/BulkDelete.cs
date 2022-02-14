@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Services.Models;
+using Infrastructure.Models;
+using Infrastructure.Services;
 
-namespace Services.Commands
+namespace Infrastructure.Commands
 {
     public class BulkDelete : DiscordSlashCommand
     {
-
         public override string Name => "clear";
 
         public override void Execute(DiscordSocketClient client, object data)

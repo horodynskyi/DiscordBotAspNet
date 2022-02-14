@@ -1,15 +1,11 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Infrastructure.Models;
+using Infrastructure.Services;
 using Services.Enums;
-using Services.Models;
 using ShikimoriSharp.Classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Services.Commands
+namespace Infrastructure.Commands.Shikimory
 {
     public class FetchCalendarDataCommand : DiscordSlashCommand
     {

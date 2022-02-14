@@ -6,7 +6,7 @@ using ShikimoriSharp.Settings;
 using shikiApi = ShikimoriSharp;
 
 
-namespace Services
+namespace Infrastructure.Services
 {
     public class ShikimoryService
     {

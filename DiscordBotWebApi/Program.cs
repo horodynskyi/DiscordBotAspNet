@@ -1,6 +1,6 @@
 using DiscordBotWebApi.Bot;
+using Infrastructure.Services;
 using Microsoft.OpenApi.Models;
-using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

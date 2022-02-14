@@ -1,7 +1,7 @@
 ﻿using Discord.WebSocket;
-using Services.Models;
+using Infrastructure.Models;
 
-namespace Services.Commands
+namespace Infrastructure.Commands
 {
     public class SendImageCommand : DiscordAPICommand
     {

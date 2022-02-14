@@ -1,7 +1,7 @@
 ﻿using Discord.WebSocket;
-using Services.Models;
+using Infrastructure.Models;
 
-namespace Services.Commands.Shikimory
+namespace Infrastructure.Commands.Shikimory
 {
     public class SearchAnimeCommand : DiscordSlashCommand
     {

@@ -1,15 +1,14 @@
 ﻿using Discord.WebSocket;
+using Infrastructure.Commands;
+using Infrastructure.Services;
 using Interfaces;
-using Services;
-using Services.Commands;
-using Services.Models;
 
 namespace DiscordBotWebApi.Bot
 {
     public class CommandsHandler
     {
         private readonly DiscordSocketClient _client;
-        private readonly CommandServices commandServices = new CommandServices();
+        private readonly CommandServices commandServices = new();
 
         public CommandsHandler(DiscordSocketClient client)
         {
@@ -20,10 +19,15 @@ namespace DiscordBotWebApi.Bot
         {
             var command = commandServices.GetComand(commandData);
 
-            if (command != null) 
+            if (command != null)
             {
                 command.Execute(_client, commandData);
                 WriteToHistory($"User {commandData.User.Username} run command named **{command.Name}**");
+            }
+            else
+            {
+                commandData.RespondAsync("Command not found");
+                WriteToHistory($"Error while user {commandData.User.Username} try to call command named **{command.Name}** - command not found");
             }
 
             return Task.CompletedTask;
@@ -54,12 +58,10 @@ namespace DiscordBotWebApi.Bot
             }
         }
 
-        private void WriteToHistory(string message)
+        private static void WriteToHistory(string message)
         {
-            using (var writer = new StreamWriter("..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\CommandHistory.txt", true, System.Text.Encoding.Default))
-            {
-                writer.WriteLine(DateTime.Now.ToString("dd/MM/yyyy:H:m") + $" - {message}");
-            }   
+            using var writer = new StreamWriter("..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\CommandHistory.txt", true, System.Text.Encoding.Default);
+            writer.WriteLine(DateTime.Now.ToString("dd/MM/yyyy:H:m") + $" - {message}");
         }
     }
 }
