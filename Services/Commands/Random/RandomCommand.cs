@@ -1,7 +1,7 @@
 ﻿using Discord.WebSocket;
-using Services.Models;
+using Infrastructure.Models;
 
-namespace Services.Commands.RandomCommands
+namespace Infrastructure.Commands.RandomCommands
 {
     public class RandomCommand : DiscordSlashCommand
     {
