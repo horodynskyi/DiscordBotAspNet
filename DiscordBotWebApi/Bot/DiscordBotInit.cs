@@ -1,13 +1,17 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Services.Commands;
+using System.Text.Json;
 
 namespace DiscordBotWebApi.Bot
 {
     public static class DiscordBotInit
     {
+        private static DiscordSocketClient _client { get; set; }
         public static IServiceCollection AddClient(this IServiceCollection services, IConfiguration configuration)
         {
             var client = new DiscordSocketClient();
+            _client = client;
             client.Log += Log;
             client.MessageReceived += new CommandsHandler(client).Handler;
             client.UserJoined += new OnMemberJoinHandler(client).MessageSender;

@@ -1,7 +1,13 @@
 ﻿using Discord.WebSocket;
-using Infrastructure.Models;
+using Services.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace Infrastructure.Commands
+namespace Services.Commands
 {
     public class GetHistoryCommand : DiscordSlashCommand
     {

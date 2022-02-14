@@ -1,10 +1,9 @@
 ﻿using Discord.WebSocket;
-using Infrastructure.Commands;
-using Infrastructure.Commands.RandomCommands;
-using Infrastructure.Commands.Shikimory;
 using Interfaces;
+using Services.Commands;
+using Services.Commands.RandomCommands;
 
-namespace Infrastructure.Services
+namespace Services
 {
     public class CommandServices
     {
@@ -19,7 +18,6 @@ namespace Infrastructure.Services
                new GetHistoryCommand(),
                new FetchCalendarDataCommand(),
                new SetupSlashCommands(),
-               new RandomAnimeArt(),
                new SendImageCommand(),
             };
         }
@@ -28,7 +26,7 @@ namespace Infrastructure.Services
         {
             foreach (var command in _commands)
             {
-                if (command.Name == msg.CommandName)
+                if (command.Contains(msg))
                 {
                     return command;
                 }

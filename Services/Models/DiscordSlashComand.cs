@@ -1,7 +1,8 @@
-﻿using Discord.WebSocket;
+﻿
+using Discord.WebSocket;
 using Interfaces;
 
-namespace Infrastructure.Models
+namespace Services.Models
 {
     public abstract class DiscordSlashCommand : ICommand
     {

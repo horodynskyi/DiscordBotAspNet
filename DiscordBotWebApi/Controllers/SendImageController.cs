@@ -1,7 +1,7 @@
 ﻿using Discord.WebSocket;
 using DiscordBotWebApi.Bot;
-using Infrastructure.Commands;
 using Microsoft.AspNetCore.Mvc;
+using Services.Commands;
 
 namespace DiscordBotWebApi.Controllers
 {
@@ -9,9 +9,11 @@ namespace DiscordBotWebApi.Controllers
     [Route("api/[controller]")]
     public class SendImageController : ControllerBase
     {
+        private readonly DiscordSocketClient _client;
         private readonly CommandsHandler _commandsHandler;
         public SendImageController(DiscordSocketClient client, CommandsHandler commandsHandler)
         {
+            _client = client;
             _commandsHandler = commandsHandler;
         }
 

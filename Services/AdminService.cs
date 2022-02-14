@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Infrastructure.Services
+namespace Services
 {
     public class AdminService
     {

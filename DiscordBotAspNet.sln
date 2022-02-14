@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordBotWebApi", "DiscordBotWebApi\DiscordBotWebApi.csproj", "{30D5EC1A-8EF6-40CF-80B3-23F1D5FC0AAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Services\Infrastructure.csproj", "{49FC6C78-C630-4965-A6A6-5087D2E1E0CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{49FC6C78-C630-4965-A6A6-5087D2E1E0CB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Interfaces\Interfaces.csproj", "{AAE57739-DF7B-4C37-B14F-3FD2F9C65172}"
 EndProject

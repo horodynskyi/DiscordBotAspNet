@@ -1,13 +1,20 @@
 ﻿using Discord;
 using Discord.Net;
 using Discord.WebSocket;
-using Infrastructure.Models;
+using Services.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Infrastructure.Commands
+namespace Services.Commands
 {
     public class SetupSlashCommands : DiscordSlashCommand
     {
+
         public override string Name => "setupslashcommand";
+
 
         public override async void Execute(DiscordSocketClient client, SocketSlashCommand msg)
         {
@@ -93,36 +100,8 @@ namespace Infrastructure.Commands
                 Description = "Searching anime"
             };
 
-            var setupRandomArtCommand = new SlashCommandBuilder
-            {
-                Name = "randomanimeart",
-                Description = "Send random art"
-            };
-
-            setupRandomArtCommand.AddOption
-                (
-                "censorship",
-                ApplicationCommandOptionType.Integer,
-                "Biba and boba",
-                isRequired: true,
-                choices: new ApplicationCommandOptionChoiceProperties[2]
-                    {
-                        new ApplicationCommandOptionChoiceProperties
-                        {
-                            Name = "Yes",
-                            Value = 0
-                        },
-                        new ApplicationCommandOptionChoiceProperties
-                        {
-                            Name = "No",
-                            Value = 1
-                        },
-                    }
-                );
-
             try
             {
-                await guild.DeleteApplicationCommandsAsync();
                 await msg.Channel.SendMessageAsync("0%");
                 await guild.CreateApplicationCommandAsync(setupSlashCommandCommand.Build());
                 await guild.CreateApplicationCommandAsync(setupRollCommand.Build());
@@ -130,11 +109,9 @@ namespace Infrastructure.Commands
                 await guild.CreateApplicationCommandAsync(setupRandomCommand.Build());
                 await guild.CreateApplicationCommandAsync(setupClearCommand.Build());
                 await msg.Channel.SendMessageAsync("50%");
-                await guild.CreateApplicationCommandAsync(setupRandomArtCommand.Build());
-                await guild.CreateApplicationCommandAsync(setupFetchAnimeCalendarCommand.Build());
-                await msg.Channel.SendMessageAsync("80%");
                 await guild.CreateApplicationCommandAsync(setupAnimeSearchCommand.Build());
-
+                await msg.Channel.SendMessageAsync("80%");
+                await guild.CreateApplicationCommandAsync(setupFetchAnimeCalendarCommand.Build());
             }
             catch (HttpException exception)
             {
