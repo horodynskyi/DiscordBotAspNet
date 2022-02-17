@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\Options\Options.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.WebSocket;
 using Infrastructure.Models;
 
 namespace Infrastructure.Commands.RandomCommands
@@ -9,7 +10,7 @@ namespace Infrastructure.Commands.RandomCommands
 
         readonly Random _random = new();
 
-        public override void Execute(DiscordSocketClient client, SocketSlashCommand msg)
+        public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
         {
             var min = 0;
 
@@ -17,12 +18,30 @@ namespace Infrastructure.Commands.RandomCommands
             Console.WriteLine($"Random from {min} to {max.Value}");
             Console.WriteLine(min);
             Console.WriteLine(max);
-            msg.RespondAsync("Random value = " + _random.Next(min, int.Parse(max.Value.ToString())).ToString());
+            await msg.RespondAsync("Random value = " + _random.Next(min, int.Parse(max.Value.ToString())).ToString());
         }
 
-        public override void Execute(DiscordSocketClient client, object data)
+        public override async Task ExecuteAsync(DiscordSocketClient client, object data)
         {
             throw new NotImplementedException();
+        }
+
+        public override SlashCommandBuilder GetSlashCommandBuilder()
+        {
+            var setupRandomCommand = new SlashCommandBuilder
+            {
+                Name = Name,
+                Description = "Return random value in range between 0 and {value}",
+            };
+
+            setupRandomCommand.AddOption(
+                "value",
+                ApplicationCommandOptionType.Number,
+                "Biba and boba",
+                isRequired: true,
+                minValue: 0.0
+            );
+            return setupRandomCommand;
         }
     }
 }

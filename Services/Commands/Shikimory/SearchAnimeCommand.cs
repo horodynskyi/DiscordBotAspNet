@@ -1,20 +1,60 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.WebSocket;
 using Infrastructure.Models;
+using Infrastructure.Services;
 
 namespace Infrastructure.Commands.Shikimory
 {
     public class SearchAnimeCommand : DiscordSlashCommand
     {
-        public override string Name => "SearchAnime";
+        public override string Name => "searchanime";
 
-        public override void Execute(DiscordSocketClient client, SocketSlashCommand msg)
+        private readonly ShikimoryService _shikimoryService;
+
+        public SearchAnimeCommand(ShikimoryService shikimoryService)
+        {
+            _shikimoryService = shikimoryService;
+        }
+
+        public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
+        {
+            var query = msg.Data.Options.First().Value;
+            var animes = await _shikimoryService.SearchAnimeByQueryString((String)query);
+            var embed = new EmbedBuilder
+            {
+                Title = $"{animes.First().Name}",
+                ImageUrl = "https://moe.shikimori.one" + animes.First().Image.Original,
+                Url = "https://shikimori.one" + animes.First().Url,
+                Color = new Color(255, 16, 240),
+            };
+            await msg.RespondAsync(embed: embed.Build());
+        }
+
+        public override Task ExecuteAsync(DiscordSocketClient client, object data)
         {
             throw new NotImplementedException();
         }
 
-        public override void Execute(DiscordSocketClient client, object data)
+        public override SlashCommandBuilder GetSlashCommandBuilder()
         {
-            throw new NotImplementedException();
+            var searchAnimeSlashCommandBuilder = new SlashCommandBuilder
+            {
+                Name = Name,
+                Description = "Searching anime"
+            };
+            searchAnimeSlashCommandBuilder.AddOption(
+                "query",
+                ApplicationCommandOptionType.String,
+                "Biba and boba",
+                isRequired: true
+            ).AddOption(
+                "tags",
+                ApplicationCommandOptionType.String,
+                "Biba and boba",
+                isRequired: true
+            );
+
+            return searchAnimeSlashCommandBuilder;
         }
     }
 }

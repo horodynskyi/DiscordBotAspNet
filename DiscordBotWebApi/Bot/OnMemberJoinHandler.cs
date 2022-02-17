@@ -14,14 +14,15 @@ namespace DiscordBotWebApi.Bot
 			_client = client;
 		}
 
-		public async Task MessageSender(SocketGuildUser user)
+		public Task MessageSender(SocketGuildUser user)
 		{
 			if (_client != null)
 			{
 				Random random = new();
 				var channel = _client.GetChannel(942780457232257044) as SocketTextChannel;
-				await channel.SendMessageAsync($"Это же тот самый {strings[random.Next(strings.Count)]} {user.Mention} добро пожаловать на {channel.Guild.Name}");
+				channel.SendMessageAsync($"Это же тот самый {strings[random.Next(strings.Count)]} {user.Mention} добро пожаловать на {channel.Guild.Name}");
 			}
+			return Task.CompletedTask;
 		}
 	}
 }

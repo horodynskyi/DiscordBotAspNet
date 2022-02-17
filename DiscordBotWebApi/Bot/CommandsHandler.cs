@@ -1,5 +1,6 @@
 ﻿using Discord.WebSocket;
 using Infrastructure.Commands;
+using Infrastructure.Models;
 using Infrastructure.Services;
 using Interfaces;
 
@@ -8,60 +9,73 @@ namespace DiscordBotWebApi.Bot
     public class CommandsHandler
     {
         private readonly DiscordSocketClient _client;
-        private readonly CommandServices commandServices = new();
+        private readonly CommandServices _commandServices;
 
-        public CommandsHandler(DiscordSocketClient client)
+        public CommandsHandler(DiscordSocketClient client, CommandServices commandServices)
         {
             _client = client;
+            _commandServices = commandServices;
         }
 
-        public Task Handler(SocketSlashCommand commandData)
+        public async Task Handler(SocketSlashCommand commandData)
         {
-            var command = commandServices.GetComand(commandData);
+            var command = _commandServices.GetComand(commandData);
 
             if (command != null)
             {
-                command.Execute(_client, commandData);
-                WriteToHistory($"User {commandData.User.Username} run command named **{command.Name}**");
+                try {
+                    await command.ExecuteAsync(_client, commandData);
+                    WriteToHistory($"User {commandData.User.Username} run command named **{command.Name}**");
+                } catch (Exception e){
+                    await commandData.RespondAsync("An unexpected error occured");
+                    WriteToHistory($"Error while user {commandData.User.Username} try to call command named **{command.Name}** - command error -> {e}");
+                }
             }
             else
             {
-                commandData.RespondAsync("Command not found");
+                await commandData.RespondAsync("Command not found");
                 WriteToHistory($"Error while user {commandData.User.Username} try to call command named **{command.Name}** - command not found");
             }
-
-            return Task.CompletedTask;
         }
 
-        public Task Handler(SocketMessage msg)
+        public async Task Handler(SocketMessage msg)
         {
-            var command = commandServices.GetComand(msg);
+            var command = _commandServices.GetComand(msg);
 
             if (command != null)
             {
-                command.Execute(_client, msg);
-                WriteToHistory($"User {msg.Author.Username} run command named **{command.Name}**");
-            }
+                try
+                {
+                    await command.ExecuteAsync(_client, msg);
+                    WriteToHistory($"User {msg.Author.Username} run command named **{command.Name}**");
+                }
+                catch (Exception e)
+                {
+                    await msg.Channel.SendMessageAsync("An unexpected error occured");
+                    WriteToHistory($"Error while user {msg.Author.Username} try to call command named **{command.Name}** - command error -> {e}");
+                }
 
-            return Task.CompletedTask;
+            }
+            else if (msg.Content.Contains('!'))
+            {
+                await msg.Channel.SendMessageAsync("Command not found");
+                WriteToHistory($"Error while user {msg.Author.Username} try to call command named **{msg.Content}** - command not found");
+            }
         }
 
-        public void Handler(ICommand command, object data)
-        {
-            if (command != null) 
+        public async Task ExecuteAsyncApiCommand(DiscordAPICommand command, object data) {
+            switch (command)
             {
-                switch (command)
-                {
-                    case SendImageCommand: command.Execute(_client, data); break;
-                }
-                WriteToHistory($"User ADMIN run command from API named **{command.Name}** + Command data = {data}no_link");
+                case SendImageCommand: await command.ExecuteAsync(_client, data); break;
             }
+            WriteToHistory($"User ADMIN run command from API named **{command.Name}** + Command data = {data.ToString()[5..]}");
         }
 
         private static void WriteToHistory(string message)
         {
             using var writer = new StreamWriter("..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\CommandHistory.txt", true, System.Text.Encoding.Default);
             writer.WriteLine(DateTime.Now.ToString("dd/MM/yyyy:H:m") + $" - {message}");
+            writer.Close();
         }
     }
 }

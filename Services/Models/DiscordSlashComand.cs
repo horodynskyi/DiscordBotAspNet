@@ -1,4 +1,5 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.WebSocket;
 using Interfaces;
 
 namespace Infrastructure.Models
@@ -7,8 +8,10 @@ namespace Infrastructure.Models
     {
         public abstract String Name { get; }
 
-        public abstract void Execute(DiscordSocketClient client, SocketSlashCommand msg);
+        public abstract Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg);
 
-        public abstract void Execute(DiscordSocketClient client, object data);
+        public abstract Task ExecuteAsync(DiscordSocketClient client, object data);
+
+        public abstract SlashCommandBuilder GetSlashCommandBuilder();
     }
 }

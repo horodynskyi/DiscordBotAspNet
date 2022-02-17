@@ -8,19 +8,19 @@ namespace Infrastructure.Services
 {
     public class CommandServices
     {
-        private readonly List<ICommand> _commands;
+        public List<ICommand> _commands { get; }
 
-        public CommandServices()
+        public CommandServices(ShikimoryService shikimoryService)
         {
             _commands = new List<ICommand>{
                new RandomCommand(),
                new RollCommands(),
                new BulkDelete(),
                new GetHistoryCommand(),
-               new FetchCalendarDataCommand(),
-               new SetupSlashCommands(),
+               new FetchCalendarDataCommand(shikimoryService),
+               //new SetupSlashCommands(),
                new RandomAnimeArt(),
-               new SendImageCommand(),
+               new SearchAnimeCommand(shikimoryService)
             };
         }
 

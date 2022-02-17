@@ -1,4 +1,5 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.WebSocket;
 using Infrastructure.Models;
 
 namespace Infrastructure.Commands
@@ -9,7 +10,7 @@ namespace Infrastructure.Commands
 
         public override string[] Parameters { get; set; }
 
-        public async override void Execute(DiscordSocketClient client, object data)
+        public async override Task ExecuteAsync(DiscordSocketClient client, object data)
         {
             
             var channel = await client.GetChannelAsync(874217842650796032) as SocketTextChannel;
@@ -17,7 +18,12 @@ namespace Infrastructure.Commands
             await channel.SendMessageAsync(data.ToString());
         }
 
-        public override void Execute(DiscordSocketClient client, SocketSlashCommand msg)
+        public override Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override SlashCommandBuilder GetSlashCommandBuilder()
         {
             throw new NotImplementedException();
         }

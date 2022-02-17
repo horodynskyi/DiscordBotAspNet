@@ -1,4 +1,5 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.WebSocket;
 using Infrastructure.Models;
 
 namespace Infrastructure.Commands.RandomCommands
@@ -9,15 +10,25 @@ namespace Infrastructure.Commands.RandomCommands
 
         readonly Random _random = new();
 
-        public override void Execute(DiscordSocketClient client, SocketSlashCommand msg)
+        public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
         {
             Console.WriteLine($"Random from {0} to {100}");
-            msg.RespondAsync(msg.User.Username.ToUpper() + " rolling - **" + _random.Next(0, 100).ToString() + "**");
+            await msg.RespondAsync(msg.User.Username.ToUpper() + " rolling - **" + _random.Next(0, 100).ToString() + "**");
+
         }
 
-        public override void Execute(DiscordSocketClient client, object data)
+        public override async Task ExecuteAsync(DiscordSocketClient client, object data)
         {
             throw new NotImplementedException();
+        }
+
+        public override SlashCommandBuilder GetSlashCommandBuilder()
+        {
+            return new SlashCommandBuilder
+            {
+                Name = Name,
+                Description = "Send a random value between 0 and 100",
+            };
         }
     }
 }
