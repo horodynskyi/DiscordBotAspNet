@@ -21,7 +21,7 @@ var configuration = new ConfigurationBuilder()
 builder.Services.AddTransient<CommandsHandler>();
 builder.Services.AddTransient<AdminService>();
 builder.Services.AddTransient<ShikimoryService>();
-builder.Services.AddTransient<CommandServices>();
+builder.Services.AddTransient<CommandService>();
 builder.Services.AddTransient<SetupSlashCommands>();
 builder.Services.AddClient(configuration);
 

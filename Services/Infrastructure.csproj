@@ -14,8 +14,4 @@
     <ProjectReference Include="..\Options\Options.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\Images\" />
-  </ItemGroup>
-
 </Project>

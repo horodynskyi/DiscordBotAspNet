@@ -655,3 +655,92 @@
 17.02.2022:23:15 - User Jungler run command named **randomanimeart**
 17.02.2022:23:15 - User Jungler run command named **randomanimeart**
 17.02.2022:23:15 - User Jungler run command named **randomanimeart**
+18.02.2022:17:35 - User murranik run command named **commandhistory**
+18.02.2022:17:35 - User murranik run command named **clear**
+18.02.2022:17:36 - User murranik run command named **searchanime**
+18.02.2022:17:36 - User murranik run command named **clear**
+18.02.2022:18:57 - Error while user murranik try to call command named **searchanimeart** - command error -> System.Text.Json.JsonException: '<' is an invalid start of a value. Path: $ | LineNumber: 1 | BytePositionInLine: 0.
+ ---> System.Text.Json.JsonReaderException: '<' is an invalid start of a value. LineNumber: 1 | BytePositionInLine: 0.
+   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at Infrastructure.Services.DanbooruService.GetArt(String tags, Nullable`1 cencorship) in D:\prj\.net\DiscordBotAspNet\Services\Services\DanbooruService.cs:line 41
+   at Infrastructure.Commands.Images.SearchAnimeArtCommand.ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg) in D:\prj\.net\DiscordBotAspNet\Services\Commands\Images\SearchAnimeArtCommand.cs:line 15
+   at DiscordBotWebApi.Bot.CommandsHandler.Handler(SocketSlashCommand commandData) in D:\prj\.net\DiscordBotAspNet\DiscordBotWebApi\Bot\CommandsHandler.cs:line 27
+18.02.2022:19:4 - Error while user murranik try to call command named **searchanimeart** - command error -> System.Text.Json.JsonException: '<' is an invalid start of a value. Path: $ | LineNumber: 1 | BytePositionInLine: 0.
+ ---> System.Text.Json.JsonReaderException: '<' is an invalid start of a value. LineNumber: 1 | BytePositionInLine: 0.
+   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at Infrastructure.Services.DanbooruService.GetArt(String tags, Nullable`1 cencorship) in D:\prj\.net\DiscordBotAspNet\Services\Services\DanbooruService.cs:line 41
+   at Infrastructure.Commands.Images.SearchAnimeArtCommand.ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg) in D:\prj\.net\DiscordBotAspNet\Services\Commands\Images\SearchAnimeArtCommand.cs:line 16
+   at DiscordBotWebApi.Bot.CommandsHandler.Handler(SocketSlashCommand commandData) in D:\prj\.net\DiscordBotAspNet\DiscordBotWebApi\Bot\CommandsHandler.cs:line 27
+18.02.2022:19:12 - User murranik run command named **clear**
+18.02.2022:19:20 - User murranik run command named **searchanimeart**
+18.02.2022:19:21 - User murranik run command named **searchanimeart**
+18.02.2022:19:22 - User murranik run command named **searchanimeart**
+18.02.2022:19:22 - User murranik run command named **searchanimeart**
+18.02.2022:19:22 - User murranik run command named **searchanimeart**
+18.02.2022:19:22 - User murranik run command named **searchanimeart**
+18.02.2022:19:22 - User murranik run command named **searchanimeart**
+18.02.2022:19:22 - User murranik run command named **clear**
+18.02.2022:19:24 - User murranik run command named **searchanimeart**
+18.02.2022:19:26 - User murranik run command named **searchanimeart**
+18.02.2022:19:26 - User murranik run command named **searchanimeart**
+18.02.2022:19:32 - User murranik run command named **clear**
+18.02.2022:19:32 - Error while user murranik try to call command named **searchanimeart** - command error -> System.Text.Json.JsonException: '<' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+ ---> System.Text.Json.JsonReaderException: '<' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
+   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at Infrastructure.Services.DanbooruService.GetArt(String tags, Nullable`1 cencorship) in D:\prj\.net\DiscordBotAspNet\Services\Services\DanbooruService.cs:line 41
+   at Infrastructure.Commands.Images.SearchAnimeArtCommand.ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg) in D:\prj\.net\DiscordBotAspNet\Services\Commands\Images\SearchAnimeArtCommand.cs:line 16
+   at DiscordBotWebApi.Bot.CommandsHandler.Handler(SocketSlashCommand commandData) in D:\prj\.net\DiscordBotAspNet\DiscordBotWebApi\Bot\CommandsHandler.cs:line 27
+18.02.2022:19:33 - User murranik run command named **searchanimeart**
+18.02.2022:19:34 - User murranik run command named **searchanimeart**
+18.02.2022:19:34 - User murranik run command named **searchanimeart**
+18.02.2022:19:34 - User murranik run command named **searchanimeart**
+18.02.2022:19:34 - User murranik run command named **searchanimeart**
+18.02.2022:19:35 - User murranik run command named **searchanimeart**
+18.02.2022:19:37 - User murranik run command named **searchanimeart**
+18.02.2022:19:37 - User murranik run command named **clear**
+18.02.2022:19:37 - User murranik run command named **searchanimeart**
+18.02.2022:19:38 - User murranik run command named **searchanimeart**
+18.02.2022:19:38 - User murranik run command named **searchanimeart**
+18.02.2022:19:38 - User murranik run command named **searchanimeart**
+18.02.2022:19:38 - User murranik run command named **searchanimeart**
+18.02.2022:19:38 - User murranik run command named **searchanimeart**
+18.02.2022:19:38 - User murranik run command named **searchanimeart**
+18.02.2022:19:38 - User murranik run command named **searchanimeart**
+18.02.2022:19:38 - User murranik run command named **searchanimeart**
+18.02.2022:19:38 - User murranik run command named **clear**
+18.02.2022:19:38 - User murranik run command named **searchanimeart**
+18.02.2022:19:39 - User murranik run command named **searchanimeart**
+18.02.2022:19:39 - User murranik run command named **clear**

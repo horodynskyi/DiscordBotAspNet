@@ -9,9 +9,9 @@ namespace DiscordBotWebApi.Bot
     public class CommandsHandler
     {
         private readonly DiscordSocketClient _client;
-        private readonly CommandServices _commandServices;
+        private readonly CommandService _commandServices;
 
-        public CommandsHandler(DiscordSocketClient client, CommandServices commandServices)
+        public CommandsHandler(DiscordSocketClient client, CommandService commandServices)
         {
             _client = client;
             _commandServices = commandServices;

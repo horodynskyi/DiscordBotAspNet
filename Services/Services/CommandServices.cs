@@ -1,16 +1,17 @@
 ﻿using Discord.WebSocket;
 using Infrastructure.Commands;
+using Infrastructure.Commands.Images;
 using Infrastructure.Commands.RandomCommands;
 using Infrastructure.Commands.Shikimory;
 using Interfaces;
 
 namespace Infrastructure.Services
 {
-    public class CommandServices
+    public class CommandService
     {
         public List<ICommand> _commands { get; }
 
-        public CommandServices(ShikimoryService shikimoryService)
+        public CommandService(ShikimoryService shikimoryService)
         {
             _commands = new List<ICommand>{
                new RandomCommand(),
@@ -18,7 +19,7 @@ namespace Infrastructure.Services
                new BulkDelete(),
                new GetHistoryCommand(),
                new FetchCalendarDataCommand(shikimoryService),
-               //new SetupSlashCommands(),
+               new SearchAnimeArtCommand(),
                new RandomAnimeArt(),
                new SearchAnimeCommand(shikimoryService)
             };

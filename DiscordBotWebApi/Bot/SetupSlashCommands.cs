@@ -4,13 +4,13 @@ using Discord.WebSocket;
 using Infrastructure.Models;
 using Infrastructure.Services;
 
-namespace Infrastructure.Commands
+namespace DiscordBotWebApi.Bot
 {
     public class SetupSlashCommands
     {
-        private readonly CommandServices _commandServices;
+        private readonly CommandService _commandServices;
 
-        public SetupSlashCommands(CommandServices commandServices) {
+        public SetupSlashCommands(CommandService commandServices) {
             _commandServices = commandServices;
         }
 

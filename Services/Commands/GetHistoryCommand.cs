@@ -15,19 +15,17 @@ namespace Infrastructure.Commands
 
         public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
         {
-            using (StreamReader r = new StreamReader("..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\CommandHistory.txt"))
+            using StreamReader r = new("..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\CommandHistory.txt");
+            var data = r.ReadToEnd();
+            var commandList = data.Split('\n');
+            data = "";
+            for (int i = commandList.Length - 1; i >= 0; i--)
             {
-                var data = r.ReadToEnd();
-                var commandList = data.Split('\n');
-                data = "";
-                for (int i = commandList.Length - 1; i >= 0; i--)
-                {                   
-                    data += commandList[i];
-                    if (data.Length + commandList[i].Length > 2000)
-                        break;
-                }
-                await msg.RespondAsync(data);
-            }           
+                data += commandList[i];
+                if (data.Length + commandList[i].Length > 2000)
+                    break;
+            }
+            await msg.RespondAsync(data);
         }
 
         public override SlashCommandBuilder GetSlashCommandBuilder()
