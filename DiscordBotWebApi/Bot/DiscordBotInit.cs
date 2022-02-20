@@ -7,45 +7,43 @@ namespace DiscordBotWebApi.Bot
 {
     public static class DiscordBotInit
     {
-        public static readonly IList<String> strings = new ReadOnlyCollection<string>(new List<String> {
-            "Легендарный", "Невероянтый", "Жесткий", "Разрывной", ":male_sign:Dungeon Master:male_sign: " });
-        static readonly DiscordSocketClient _client = new();
+        static readonly DiscordSocketClient _client = new(new DiscordSocketConfig() { 
+            AlwaysDownloadUsers = true,
+            GatewayIntents = GatewayIntents.All,
+            
+        });
+        private static ServiceProvider _provider;
 
         public static IServiceCollection AddClient(this IServiceCollection services, IConfiguration configuration)
         {
-            var provider = services.BuildServiceProvider();
-            var commandServices = provider.GetService(typeof(CommandService)) as CommandService;
-
-            
+            _provider = services.BuildServiceProvider();
+            var commandServices = _provider.GetService(typeof(CommandService)) as CommandService;
+        
             _client.Log += Log;
             _client.MessageReceived += new CommandsHandler(_client, commandServices).Handler;
-            _client.UserJoined += MessageSender;
+            _client.SlashCommandExecuted += new CommandsHandler(_client, commandServices).Handler;
+            _client.UserJoined += new OnMemberJoinHandler(_client).MessageSender;
             _client.SetGameAsync("Fisting ass in the dungeon");
             _client.LoginAsync(TokenType.Bot, configuration.GetValue<String>("BotToken"));
-            _client.SlashCommandExecuted += new CommandsHandler(_client, commandServices).Handler;
+            _client.Ready += OnReady;
             _client.StartAsync();
+            services.AddSingleton(_client);
 
             while (_client.ConnectionState != ConnectionState.Connected) 
             {           
 
-            }
-            services.AddSingleton(_client);
+            }                   
 
-            var setupSlashCommands = provider.GetService(typeof(SetupSlashCommands)) as SetupSlashCommands;
+            var setupSlashCommands = _provider.GetService(typeof(SetupSlashCommands)) as SetupSlashCommands;
             setupSlashCommands.Execute(_client).Wait();
                   
             return services;
         }
 
-        public static Task MessageSender(SocketGuildUser user)
+        private static async Task OnReady()
         {
-            if (_client != null)
-            {
-                Random random = new();
-                var channel = _client.GetChannel(942780457232257044) as SocketTextChannel;
-                channel.SendMessageAsync($"Это же тот самый {strings[random.Next(strings.Count)]} {user.Mention} добро пожаловать на {channel.Guild.Name}");
-            }
-            return Task.CompletedTask;
+            var userServices = _provider.GetService(typeof(UserService)) as UserService;
+            await userServices.FetchAllUsersFromDiscord(_client);
         }
 
         private static Task Log(LogMessage msg)

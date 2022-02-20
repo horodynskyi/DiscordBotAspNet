@@ -6,10 +6,15 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordBotWebApi", "DiscordBotWebApi\DiscordBotWebApi.csproj", "{30D5EC1A-8EF6-40CF-80B3-23F1D5FC0AAB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Services\Infrastructure.csproj", "{49FC6C78-C630-4965-A6A6-5087D2E1E0CB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9D196FEE-2AE9-48BE-A629-1A25B47FBAE1} = {9D196FEE-2AE9-48BE-A629-1A25B47FBAE1}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Interfaces\Interfaces.csproj", "{AAE57739-DF7B-4C37-B14F-3FD2F9C65172}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Options", "Options\Options.csproj", "{1BFDF68D-4A15-4578-87F5-E326D46DBB19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Options", "Options\Options.csproj", "{1BFDF68D-4A15-4578-87F5-E326D46DBB19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{9D196FEE-2AE9-48BE-A629-1A25B47FBAE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +38,10 @@ Global
 		{1BFDF68D-4A15-4578-87F5-E326D46DBB19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BFDF68D-4A15-4578-87F5-E326D46DBB19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BFDF68D-4A15-4578-87F5-E326D46DBB19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D196FEE-2AE9-48BE-A629-1A25B47FBAE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D196FEE-2AE9-48BE-A629-1A25B47FBAE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D196FEE-2AE9-48BE-A629-1A25B47FBAE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D196FEE-2AE9-48BE-A629-1A25B47FBAE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,10 @@
 using DiscordBotWebApi.Bot;
 using DiscordBotWebApi.Options;
-using Infrastructure.Commands;
+using Infrastructure.Database;
 using Infrastructure.Services;
 using Microsoft.OpenApi.Models;
 using Options.Shikimory;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,11 +20,16 @@ var configuration = new ConfigurationBuilder()
                 .Build();
 
 builder.Services.AddTransient<CommandsHandler>();
+builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<AdminService>();
 builder.Services.AddTransient<ShikimoryService>();
 builder.Services.AddTransient<CommandService>();
 builder.Services.AddTransient<SetupSlashCommands>();
+builder.Services.AddDbContext<DiscordBotContext>(options =>
+        options.UseSqlServer(configuration.GetConnectionString("DiscordDatabase"))
+        .LogTo(Console.WriteLine));
 builder.Services.AddClient(configuration);
+
 
 builder.Services.AddControllers();
 

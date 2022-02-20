@@ -1,6 +1,4 @@
-﻿using DiscordBotWebApi.Options;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Options.Shikimory;
 using Services.Enums;
@@ -16,7 +14,6 @@ namespace Infrastructure.Services
     {
         private readonly ShikimoryClientOptions _options;
         private readonly shikiApi.ShikimoriClient _client;
-
 
         public ShikimoryService(IOptions<ShikimoryClientOptions> options) 
         {

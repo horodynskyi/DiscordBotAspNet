@@ -744,3 +744,9 @@
 18.02.2022:19:38 - User murranik run command named **searchanimeart**
 18.02.2022:19:39 - User murranik run command named **searchanimeart**
 18.02.2022:19:39 - User murranik run command named **clear**
+19.02.2022:20:33 - User Jungler run command named **searchanimeart**
+19.02.2022:23:24 - User murranik run command named **clear**
+19.02.2022:23:27 - User murranik run command named **clear**
+19.02.2022:23:37 - User murranik run command named **clear**
+19.02.2022:23:40 - Error while user Shiki bot try to call command named **Это же тот самый Невероянтый <@!783264879826042900> добро пожаловать на Забив** - command not found
+19.02.2022:23:41 - User murranik run command named **clear**
