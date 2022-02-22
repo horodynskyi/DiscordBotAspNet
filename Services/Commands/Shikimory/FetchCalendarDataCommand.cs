@@ -17,32 +17,40 @@ namespace Infrastructure.Commands.Shikimory
             _shikimoryService = shikimoryService;
         }
 
-        public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
-        {            
-            var shikimoryCalendarFetchParametr = msg.Data.Options.First().Value switch
+        public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
+        {
+            if (commandObj is SocketSlashCommand command)
             {
-                "today" => ShikimoryCalendarFetchParametr.Today,
-                "Day of week" => ShikimoryCalendarFetchParametr.DayOfWeek,
-                "Day of month" => ShikimoryCalendarFetchParametr.DayOfMonth,
-                _ => ShikimoryCalendarFetchParametr.Today,
-            };
 
-            var day = msg.Data.Options.ElementAt(1).Value;
-
-            var calendars = (await _shikimoryService.FetchShikimoryCalendarData(shikimoryCalendarFetchParametr, int.Parse(day.ToString()))).ToList();
-
-            foreach (var calendar in calendars)
-            {
-                var embed = new EmbedBuilder
+                var shikimoryCalendarFetchParametr = command.Data.Options.First().Value switch
                 {
-                    Title = $"{calendar.Anime.Name}",
-                    ImageUrl = "https://moe.shikimori.one" + calendar.Anime.Image.Original,
-                    Url = "https://shikimori.one" + calendar.Anime.Url,
-                    Color = new Color(255, 16, 240),
-                    Footer = BuildEmbedFootter(calendar)
+                    "today" => ShikimoryCalendarFetchParametr.Today,
+                    "Day of week" => ShikimoryCalendarFetchParametr.DayOfWeek,
+                    "Day of month" => ShikimoryCalendarFetchParametr.DayOfMonth,
+                    _ => ShikimoryCalendarFetchParametr.Today,
                 };
 
-                await msg.Channel.SendMessageAsync(embed: embed.Build());
+                var day = command.Data.Options.ElementAt(1).Value;
+
+                var calendars = (await _shikimoryService.FetchShikimoryCalendarData(shikimoryCalendarFetchParametr, int.Parse(day.ToString()))).ToList();
+
+                foreach (var calendar in calendars)
+                {
+                    var embed = new EmbedBuilder
+                    {
+                        Title = $"{calendar.Anime.Name}",
+                        ImageUrl = "https://moe.shikimori.one" + calendar.Anime.Image.Original,
+                        Url = "https://shikimori.one" + calendar.Anime.Url,
+                        Color = new Color(255, 16, 240),
+                        Footer = BuildEmbedFootter(calendar)
+                    };
+
+                    await command.Channel.SendMessageAsync(embed: embed.Build());
+                }
+            }
+            else
+            {
+                return;
             }
         }
 
@@ -53,11 +61,6 @@ namespace Infrastructure.Commands.Shikimory
                 IconUrl = "https://moe.shikimori.one" + calendar.Anime.Image.Preview,
             };
             return embedFooterBuilder;
-        }
-
-        public override Task ExecuteAsync(DiscordSocketClient client, object data)
-        {
-            throw new NotImplementedException();
         }
 
         public override SlashCommandBuilder GetSlashCommandBuilder()

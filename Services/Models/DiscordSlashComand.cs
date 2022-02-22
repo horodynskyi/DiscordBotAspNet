@@ -8,9 +8,7 @@ namespace Infrastructure.Models
     {
         public abstract String Name { get; }
 
-        public abstract Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg);
-
-        public abstract Task ExecuteAsync(DiscordSocketClient client, object data);
+        public abstract Task ExecuteAsync(DiscordSocketClient client, object commandObj);
 
         public abstract SlashCommandBuilder GetSlashCommandBuilder();
     }

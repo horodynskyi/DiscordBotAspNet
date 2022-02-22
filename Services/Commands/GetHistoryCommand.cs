@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Infrastructure.Models;
+using System.Text;
 
 namespace Infrastructure.Commands
 {
@@ -8,24 +9,27 @@ namespace Infrastructure.Commands
     {
         public override string Name => "commandhistory";
 
-        public override Task ExecuteAsync(DiscordSocketClient client, object data)
+        public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
-            throw new NotImplementedException();
-        }
-
-        public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
-        {
-            using StreamReader r = new("..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\CommandHistory.txt");
-            var data = r.ReadToEnd();
-            var commandList = data.Split('\n');
-            data = "";
-            for (int i = commandList.Length - 1; i >= 0; i--)
+            if (commandObj is SocketSlashCommand command) 
             {
-                data += commandList[i];
-                if (data.Length + commandList[i].Length > 2000)
-                    break;
+                using StreamReader r = new("..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\Logs\\CommandHistory.txt");
+                var data = new StringBuilder(r.ReadToEnd());
+
+                var commandList = data.ToString().Split('\n');
+                data.Clear();
+                for (int i = commandList.Length - 1; i >= 0; i--)
+                {
+                    data.Append(commandList[i]);
+                    if (data.Length + commandList[i].Length > 2000)
+                        break;
+                }
+                await command.RespondAsync(data.ToString());
+            } 
+            else 
+            {
+                return;
             }
-            await msg.RespondAsync(data);
         }
 
         public override SlashCommandBuilder GetSlashCommandBuilder()

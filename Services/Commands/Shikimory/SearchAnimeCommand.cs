@@ -16,23 +16,25 @@ namespace Infrastructure.Commands.Shikimory
             _shikimoryService = shikimoryService;
         }
 
-        public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
+        public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
-            var query = msg.Data.Options.First().Value;
-            var animes = await _shikimoryService.SearchAnimeByQueryString((String)query);
-            var embed = new EmbedBuilder
+            if (commandObj is SocketSlashCommand command)
             {
-                Title = $"{animes.First().Name}",
-                ImageUrl = "https://moe.shikimori.one" + animes.First().Image.Original,
-                Url = "https://shikimori.one" + animes.First().Url,
-                Color = new Color(255, 16, 240),
-            };
-            await msg.RespondAsync(embed: embed.Build());
-        }
-
-        public override Task ExecuteAsync(DiscordSocketClient client, object data)
-        {
-            throw new NotImplementedException();
+                var query = command.Data.Options.First().Value;
+                var animes = await _shikimoryService.SearchAnimeByQueryString((String)query);
+                var embed = new EmbedBuilder
+                {
+                    Title = $"{animes.First().Name}",
+                    ImageUrl = "https://moe.shikimori.one" + animes.First().Image.Original,
+                    Url = "https://shikimori.one" + animes.First().Url,
+                    Color = new Color(255, 16, 240),
+                };
+                await command.RespondAsync(embed: embed.Build());
+            }
+            else
+            {
+                return;
+            }
         }
 
         public override SlashCommandBuilder GetSlashCommandBuilder()

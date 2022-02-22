@@ -10,15 +10,18 @@ namespace DiscordBotWebApi.Bot
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commandServices;
+        private readonly UserService _userService;
 
-        public CommandsHandler(DiscordSocketClient client, CommandService commandServices)
+        public CommandsHandler(DiscordSocketClient client, CommandService commandServices, UserService userService)
         {
             _client = client;
             _commandServices = commandServices;
+            _userService = userService;
         }
 
         public async Task Handler(SocketSlashCommand commandData)
         {
+            _userService.AddPointsFotUser(commandData.User.Id.ToString(), 1);
             var command = _commandServices.GetComand(commandData);
 
             if (command != null)
@@ -40,6 +43,7 @@ namespace DiscordBotWebApi.Bot
 
         public async Task Handler(SocketMessage msg)
         {
+            _userService.AddPointsFotUser(msg.Author.Id.ToString(), 1);
             var command = _commandServices.GetComand(msg);
 
             if (command != null)
@@ -63,19 +67,10 @@ namespace DiscordBotWebApi.Bot
             }
         }
 
-        public async Task ExecuteAsyncApiCommand(DiscordAPICommand command, object data) {
-            switch (command)
-            {
-                case SendImageCommand: await command.ExecuteAsync(_client, data); break;
-            }
-            WriteToHistory($"User ADMIN run command from API named **{command.Name}** + Command data = {data.ToString()[5..]}");
-        }
-
         private static void WriteToHistory(string message)
         {
-            using var writer = new StreamWriter("..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\CommandHistory.txt", true, System.Text.Encoding.Default);
+            using var writer = new StreamWriter("..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\Logs\\CommandHistory.txt", true, System.Text.Encoding.Default);
             writer.WriteLine(DateTime.Now.ToString("dd/MM/yyyy:H:m") + $" - {message}");
-            writer.Close();
         }
     }
 }

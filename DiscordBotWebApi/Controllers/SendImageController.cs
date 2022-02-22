@@ -20,7 +20,7 @@ namespace DiscordBotWebApi.Controllers
         {
             try
             {
-                await _commandsHandler.ExecuteAsyncApiCommand(new SendImageCommand(), url);
+                //await _commandsHandler.ExecuteAsyncApiCommand(new SendImageCommand(), url);
             }
             catch (Exception)
             {

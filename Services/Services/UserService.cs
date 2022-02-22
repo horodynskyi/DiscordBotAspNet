@@ -23,18 +23,33 @@ namespace Infrastructure.Services
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = user.Username,
-                    PrestigeLevel = 0
+                    PrestigeLevel = 0,
+                    GuildId = user.GuildId.ToString(),
+                    DiscordId = user.Id.ToString()
                 };
+
                 await AddUser(tmpUser);
             }
-            var res = GetAllUsers();
-            res.ToString();
         }
 
         public async Task AddUser(DiscordUser discordUser) 
         {
-            await _discordBotContext.Users.AddAsync(discordUser);
-            await _discordBotContext.SaveChangesAsync();
+            if (!_discordBotContext.Users.Any(x => x.DiscordId == discordUser.DiscordId))
+            {
+                await _discordBotContext.Users.AddAsync(discordUser);
+                await _discordBotContext.SaveChangesAsync();
+            }
+        }
+
+        public void AddPointsFotUser(string userId, int pointsCount)
+        {
+            var tmpUser = _discordBotContext.Users.FirstOrDefault(x => x.DiscordId == userId);
+            if (tmpUser != null)
+            {
+                tmpUser.PrestigeLevel += pointsCount;
+                _discordBotContext.Users.Update(tmpUser);
+                _discordBotContext.SaveChanges();
+            }
         }
 
         public List<DiscordUser> GetAllUsers()

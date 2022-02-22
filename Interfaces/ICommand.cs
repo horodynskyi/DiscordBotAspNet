@@ -21,10 +21,8 @@ namespace Interfaces
             return false;
         }
 
-        public Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg);
-
         public SlashCommandBuilder GetSlashCommandBuilder();
 
-        public Task ExecuteAsync(DiscordSocketClient client, object data);
+        public Task ExecuteAsync(DiscordSocketClient client, object commandObj);
     }
 }

@@ -24,10 +24,9 @@ builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<AdminService>();
 builder.Services.AddTransient<ShikimoryService>();
 builder.Services.AddTransient<CommandService>();
-builder.Services.AddTransient<SetupSlashCommands>();
 builder.Services.AddDbContext<DiscordBotContext>(options =>
-        options.UseSqlServer(configuration.GetConnectionString("DiscordDatabase"))
-        .LogTo(Console.WriteLine));
+        options.UseSqlServer(configuration.GetConnectionString("DiscordDatabase")));
+        //.LogTo(EFCLog));
 builder.Services.AddClient(configuration);
 
 

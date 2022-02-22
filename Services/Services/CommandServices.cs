@@ -3,22 +3,24 @@ using Infrastructure.Commands;
 using Infrastructure.Commands.Images;
 using Infrastructure.Commands.RandomCommands;
 using Infrastructure.Commands.Shikimory;
+using Infrastructure.Models;
 using Interfaces;
 
 namespace Infrastructure.Services
 {
     public class CommandService
     {
-        public List<ICommand> _commands { get; }
+        public List<ICommand> Commands { get; }
 
-        public CommandService(ShikimoryService shikimoryService)
+        public CommandService(ShikimoryService shikimoryService, UserService userService)
         {
-            _commands = new List<ICommand>{
+            Commands = new List<ICommand>{
                new RandomCommand(),
                new RollCommands(),
                new BulkDelete(),
                new GetHistoryCommand(),
                new FetchCalendarDataCommand(shikimoryService),
+               new SetupCommand(this, userService),
                new SearchAnimeArtCommand(),
                new RandomAnimeArt(),
                new SearchAnimeCommand(shikimoryService)
@@ -27,7 +29,7 @@ namespace Infrastructure.Services
 
         public ICommand GetComand(SocketSlashCommand msg)
         {
-            foreach (var command in _commands)
+            foreach (var command in Commands)
             {
                 if (command.Name == msg.CommandName)
                 {
@@ -40,7 +42,7 @@ namespace Infrastructure.Services
 
         public ICommand GetComand(SocketMessage msg)
         {
-            foreach (var command in _commands)
+            foreach (var command in Commands)
             {
                 if (command.Contains(msg))
                 {

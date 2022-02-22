@@ -38,6 +38,7 @@ namespace Infrastructure.Database.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GuildId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PrestigeLevel = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

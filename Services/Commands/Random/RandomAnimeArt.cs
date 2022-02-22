@@ -9,16 +9,18 @@ namespace Infrastructure.Commands.RandomCommands
     {
         public override string Name => "randomanimeart";
 
-        public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
+        public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
-            var danbooruService = new DanbooruService();
-            var url = await danbooruService.GetRandomArt((Int64)msg.Data.Options.First().Value == 1);
-            await msg.RespondAsync(url ?? "Not found");
-        }
-
-        public override Task ExecuteAsync(DiscordSocketClient client, object data)
-        {
-            throw new NotImplementedException();
+            if (commandObj is SocketSlashCommand command)
+            {
+                var danbooruService = new DanbooruService();
+                var url = await danbooruService.GetRandomArt((Int64)command.Data.Options.First().Value == 1);
+                await command.RespondAsync(url ?? "Not found");
+            }
+            else
+            {
+                return;
+            }
         }
 
         public override SlashCommandBuilder GetSlashCommandBuilder()

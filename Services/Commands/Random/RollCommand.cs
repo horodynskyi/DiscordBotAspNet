@@ -10,16 +10,17 @@ namespace Infrastructure.Commands.RandomCommands
 
         readonly Random _random = new();
 
-        public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
+        public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
-            Console.WriteLine($"Random from {0} to {100}");
-            await msg.RespondAsync(msg.User.Username.ToUpper() + " rolling - **" + _random.Next(0, 100).ToString() + "**");
-
-        }
-
-        public override async Task ExecuteAsync(DiscordSocketClient client, object data)
-        {
-            throw new NotImplementedException();
+            if (commandObj is SocketSlashCommand command)
+            {
+                Console.WriteLine($"Random from {0} to {100}");
+                await command.RespondAsync(command.User.Username.ToUpper() + " rolling - **" + _random.Next(0, 100).ToString() + "**");
+            }
+            else
+            {
+                return;
+            }
         }
 
         public override SlashCommandBuilder GetSlashCommandBuilder()

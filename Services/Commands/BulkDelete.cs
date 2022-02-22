@@ -9,21 +9,24 @@ namespace Infrastructure.Commands
     {
         public override string Name => "clear";
 
-        public override Task ExecuteAsync(DiscordSocketClient client, object data)
+        public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
-            throw new NotImplementedException();
-        }
-
-        public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
-        {
-            var _adminService = new AdminService();
-            var adminId = await AdminService.GetAdminDataAsync();
-            if (msg.User.Id == ulong.Parse(adminId)) 
+            if (commandObj is SocketSlashCommand command)
             {
-                var channel = client.GetChannel(msg.Channel.Id) as SocketTextChannel;
-                var messages = await channel.GetMessagesAsync().FlattenAsync();
-                await ((ITextChannel)channel).DeleteMessagesAsync(messages.Where(x => x.Timestamp >= DateTimeOffset.Now.Subtract(TimeSpan.FromDays(14))));
-                await msg.RespondAsync("Clearing success");
+                var _adminService = new AdminService();
+                var adminId = await AdminService.GetAdminDataAsync();
+                if (command.User.Id == ulong.Parse(adminId))
+                {
+                    await command.RespondAsync("Clearing starded");
+                    var channel = client.GetChannel(command.Channel.Id) as SocketTextChannel;
+                    var messages = await channel.GetMessagesAsync().FlattenAsync();
+                    await((ITextChannel)channel).DeleteMessagesAsync(messages.Where(x => x.Timestamp >= DateTimeOffset.Now.Subtract(TimeSpan.FromDays(14))));
+                    await command.Channel.SendMessageAsync("Clearing success");
+                }
+            }
+            else
+            {
+                return;
             }
         }
 

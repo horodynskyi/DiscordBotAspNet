@@ -10,20 +10,22 @@ namespace Infrastructure.Commands.RandomCommands
 
         readonly Random _random = new();
 
-        public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
+        public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
-            var min = 0;
+            if (commandObj is SocketSlashCommand command)
+            {
+                var min = 0;
 
-            var max = msg.Data.Options.First();
-            Console.WriteLine($"Random from {min} to {max.Value}");
-            Console.WriteLine(min);
-            Console.WriteLine(max);
-            await msg.RespondAsync("Random value = " + _random.Next(min, int.Parse(max.Value.ToString())).ToString());
-        }
-
-        public override async Task ExecuteAsync(DiscordSocketClient client, object data)
-        {
-            throw new NotImplementedException();
+                var max = command.Data.Options.First();
+                Console.WriteLine($"Random from {min} to {max.Value}");
+                Console.WriteLine(min);
+                Console.WriteLine(max);
+                await command.RespondAsync("Random value = " + _random.Next(min, int.Parse(max.Value.ToString())).ToString());
+            }
+            else
+            {
+                return;
+            }
         }
 
         public override SlashCommandBuilder GetSlashCommandBuilder()

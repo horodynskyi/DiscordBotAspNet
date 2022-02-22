@@ -9,17 +9,18 @@ namespace Infrastructure.Commands.Images
     {
         public override string Name => "searchanimeart";
 
-        public override async Task ExecuteAsync(DiscordSocketClient client, SocketSlashCommand msg)
+        public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
-            
-            var danbooruService = new DanbooruService();
-            var url = await danbooruService.GetArt((string)msg.Data.Options.First().Value, (Int64)msg.Data.Options.Last().Value == 1);
-            await msg.RespondAsync(url ?? "Not found");
-        }
-
-        public override Task ExecuteAsync(DiscordSocketClient client, object data)
-        {
-            throw new NotImplementedException();
+            if (commandObj is SocketSlashCommand command)
+            {
+                var danbooruService = new DanbooruService();
+                var url = await danbooruService.GetArt((string)command.Data.Options.First().Value, (Int64)command.Data.Options.Last().Value == 1);
+                await command.RespondAsync(url ?? "Not found");
+            }
+            else
+            {
+                return;
+            }
         }
 
         public override SlashCommandBuilder GetSlashCommandBuilder()
