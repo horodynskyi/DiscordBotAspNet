@@ -53,7 +53,7 @@ namespace Infrastructure.Commands.Shikimory
                 "tags",
                 ApplicationCommandOptionType.String,
                 "Biba and boba",
-                isRequired: true
+                isRequired: false
             );
 
             return searchAnimeSlashCommandBuilder;

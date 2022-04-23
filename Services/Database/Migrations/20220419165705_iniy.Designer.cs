@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Database.Migrations
+namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DiscordBotContext))]
-    [Migration("20220221171627_initial")]
-    partial class initial
+    [Migration("20220419165705_iniy")]
+    partial class iniy
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,8 +25,14 @@ namespace Infrastructure.Database.Migrations
 
             modelBuilder.Entity("Models.DiscordUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<decimal>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(20,0)");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<decimal>("Id"), 1L, 1);
+
+                    b.Property<string>("DiscordId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GuildId")
                         .HasColumnType("nvarchar(max)");

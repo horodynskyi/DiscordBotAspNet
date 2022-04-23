@@ -27,7 +27,6 @@ namespace DiscordBotWebApi.Bot
 				var channel = _client.GetChannel(942780457232257044) as SocketTextChannel;
 				await _userService.AddUser(new DiscordUser() { 
 					GuildId = user.Guild.Id.ToString(),
-					Id = Guid.NewGuid().ToString(),
 					Name = user.Username,
 					PrestigeLevel = 0,
 					DiscordId = user.Id.ToString()

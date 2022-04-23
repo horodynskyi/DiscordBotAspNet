@@ -9,14 +9,8 @@ namespace DiscordBotWebApi.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    public class BotAccesSettingsController : ControllerBase
+    public class BotAccessSettingsController : ControllerBase
     {
-        private readonly AdminService _adminService;
-        public BotAccesSettingsController(AdminService adminService)
-        {
-            _adminService = adminService;
-        }
-
         [HttpPost("SetAdminAccount")]
         public IActionResult SetAdminAccount(string id)
         {

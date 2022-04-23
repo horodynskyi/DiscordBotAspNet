@@ -23,7 +23,8 @@ namespace Infrastructure.Services
                new SetupCommand(this, userService),
                new SearchAnimeArtCommand(),
                new RandomAnimeArt(),
-               new SearchAnimeCommand(shikimoryService)
+               new SearchAnimeCommand(shikimoryService),
+               new JoinToVoiceChat()
             };
         }
 

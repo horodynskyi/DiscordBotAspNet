@@ -28,7 +28,7 @@ namespace Infrastructure.Commands
                     var paramets = message.Content.Remove(0, 6).Split(" ");
                     if (paramets.Contains("all"))
                     {
-                        await SetupSlashCommands(client);
+                        await SetupSlashCommands(client, commandObj as SocketMessage);
                         await _userService.FetchAllUsersFromDiscord(client);
                     } 
                     else if (paramets.Contains("users")) 
@@ -37,7 +37,7 @@ namespace Infrastructure.Commands
                     }
                     else if (paramets.Contains("slashcommands"))
                     {
-                        await SetupSlashCommands(client);
+                        await SetupSlashCommands(client, commandObj as SocketMessage);
                     }
                 }
             }
@@ -55,7 +55,7 @@ namespace Infrastructure.Commands
             };
         }
 
-        private async Task SetupSlashCommands(DiscordSocketClient client) 
+        private async Task SetupSlashCommands(DiscordSocketClient client, SocketMessage message) 
         {
             var guild = client.GetGuild(873689102569054268);
 

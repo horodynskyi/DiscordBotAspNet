@@ -1,16 +1,19 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Infrastructure.Database;
+using Infrastructure.Specifications;
+using Interfaces;
 using Models;
 
 namespace Infrastructure.Services
 {    
     public class UserService
     {
-        private readonly DiscordBotContext _discordBotContext;
-        public UserService(DiscordBotContext discordBotContext)
+        private readonly IRepository<DiscordUser> _repository;
+
+        public UserService(IRepository<DiscordUser> repository)
         {
-            _discordBotContext = discordBotContext;
+            _repository = repository;
         }
 
         public async Task FetchAllUsersFromDiscord(DiscordSocketClient discordSocketClient) 
@@ -21,7 +24,6 @@ namespace Infrastructure.Services
             {
                 var tmpUser = new DiscordUser
                 {
-                    Id = Guid.NewGuid().ToString(),
                     Name = user.Username,
                     PrestigeLevel = 0,
                     GuildId = user.GuildId.ToString(),
@@ -34,27 +36,30 @@ namespace Infrastructure.Services
 
         public async Task AddUser(DiscordUser discordUser) 
         {
-            if (!_discordBotContext.Users.Any(x => x.DiscordId == discordUser.DiscordId))
+            if (await _repository.GetBySpecAsync(new CheckIsUserExistSpec(discordUser.DiscordId)) == null)
             {
-                await _discordBotContext.Users.AddAsync(discordUser);
-                await _discordBotContext.SaveChangesAsync();
+                await _repository.AddAsync(discordUser);
             }
         }
 
-        public void AddPointsFotUser(string userId, int pointsCount)
+        public async Task<int> AddPointsFotUser(string userId, int pointsCount)
         {
-            var tmpUser = _discordBotContext.Users.FirstOrDefault(x => x.DiscordId == userId);
+            var tmpUser = await _repository.GetBySpecAsync(new CheckIsUserExistSpec(userId));
             if (tmpUser != null)
             {
                 tmpUser.PrestigeLevel += pointsCount;
-                _discordBotContext.Users.Update(tmpUser);
-                _discordBotContext.SaveChanges();
+                await _repository.UpdateAsync(tmpUser);
             }
+
+            if(tmpUser != null)
+                return tmpUser.PrestigeLevel;
+            else
+                return 0;
         }
 
-        public List<DiscordUser> GetAllUsers()
+        public async Task<List<DiscordUser>> GetAllUsers()
         {
-            return _discordBotContext.Users.ToList();
+            return await _repository.ListAsync();
         }
     }
 }

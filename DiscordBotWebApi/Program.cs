@@ -5,6 +5,8 @@ using Infrastructure.Services;
 using Microsoft.OpenApi.Models;
 using Options.Shikimory;
 using Microsoft.EntityFrameworkCore;
+using Interfaces;
+using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,14 +21,15 @@ var configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
                 .Build();
 
+builder.Services.AddDbContext<DiscordBotContext>(options =>
+        options.UseSqlServer(configuration.GetConnectionString("DiscordDatabase")));
+builder.Services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddTransient<CommandsHandler>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<AdminService>();
 builder.Services.AddTransient<ShikimoryService>();
 builder.Services.AddTransient<CommandService>();
-builder.Services.AddDbContext<DiscordBotContext>(options =>
-        options.UseSqlServer(configuration.GetConnectionString("DiscordDatabase")));
-        //.LogTo(EFCLog));
+
 builder.Services.AddClient(configuration);
 
 

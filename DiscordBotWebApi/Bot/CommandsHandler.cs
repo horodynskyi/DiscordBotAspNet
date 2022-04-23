@@ -43,7 +43,8 @@ namespace DiscordBotWebApi.Bot
 
         public async Task Handler(SocketMessage msg)
         {
-            _userService.AddPointsFotUser(msg.Author.Id.ToString(), 1);
+            var points = await _userService.AddPointsFotUser(msg.Author.Id.ToString(), 1);
+
             var command = _commandServices.GetComand(msg);
 
             if (command != null)

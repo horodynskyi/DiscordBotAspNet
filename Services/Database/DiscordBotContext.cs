@@ -13,6 +13,7 @@ namespace Infrastructure.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<DiscordUser>().Property(x => x.Id).ValueGeneratedOnAdd();
         }
     }
 }

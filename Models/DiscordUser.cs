@@ -1,11 +1,13 @@
-﻿namespace Models
+﻿using m = Discord;
+
+namespace Models
 {
-    public class DiscordUser
+    public class DiscordUser : m.IEntity<ulong>
     {
-        public String Id { get; set; }
-        public String DiscordId { get; set; }
-        public String Name { get; set; }
-        public String GuildId { get; set; }
-        public int PrestigeLevel { get; set; }
+        public ulong Id { get; set; }
+        public string DiscordId { get; set; }
+        public string GuildId { get; set; }
+        public string Name { get; set; } 
+        public int PrestigeLevel { get; set; }  
     }
 }
