@@ -24,7 +24,7 @@ namespace Infrastructure.Services
                new SearchAnimeArtCommand(),
                new RandomAnimeArt(),
                new SearchAnimeCommand(shikimoryService),
-               new JoinToVoiceChat()
+               new JoinToVoiceChat(),
             };
         }
 

@@ -26,7 +26,8 @@ namespace Infrastructure.Services
 
         public async Task<Calendar[]> FetchShikimoryCalendarData(ShikimoryCalendarFetchParametr parametr, int? day = null) {
             switch (parametr) {
-                case ShikimoryCalendarFetchParametr.Today: {                    
+                case ShikimoryCalendarFetchParametr.Today: 
+                    {                    
                         var calendar = await _client.Calendars.GetCalendar();
 
                         return calendar

@@ -21,23 +21,29 @@ namespace DiscordBotWebApi.Bot
 
         public async Task Handler(SocketSlashCommand commandData)
         {
-            _userService.AddPointsFotUser(commandData.User.Id.ToString(), 1);
-            var command = _commandServices.GetComand(commandData);
+            if (!commandData.User.IsBot) 
+            {
+                _userService.AddPointsFotUser(commandData.User.Id.ToString(), 1);
+                var command = _commandServices.GetComand(commandData);
 
-            if (command != null)
-            {
-                try {
-                    await command.ExecuteAsync(_client, commandData);
-                    WriteToHistory($"User {commandData.User.Username} run command named **{command.Name}**");
-                } catch (Exception e){
-                    await commandData.RespondAsync("An unexpected error occured");
-                    WriteToHistory($"Error while user {commandData.User.Username} try to call command named **{command.Name}** - command error -> {e}");
+                if (command != null)
+                {
+                    try
+                    {
+                        await command.ExecuteAsync(_client, commandData);
+                        WriteToHistory($"User {commandData.User.Username} run command named **{command.Name}**");
+                    }
+                    catch (Exception e)
+                    {
+                        await commandData.RespondAsync("An unexpected error occured");
+                        WriteToHistory($"Error while user {commandData.User.Username} try to call command named **{command.Name}** - command error -> {e}");
+                    }
                 }
-            }
-            else
-            {
-                await commandData.RespondAsync("Command not found");
-                WriteToHistory($"Error while user {commandData.User.Username} try to call command named **{command.Name}** - command not found");
+                else
+                {
+                    await commandData.RespondAsync("Command not found");
+                    WriteToHistory($"Error while user {commandData.User.Username} try to call command named **{commandData.CommandName}** - command not found");
+                }
             }
         }
 
@@ -47,24 +53,27 @@ namespace DiscordBotWebApi.Bot
 
             var command = _commandServices.GetComand(msg);
 
-            if (command != null)
+            if (!msg.Author.IsBot)
             {
-                try
+                if (command != null)
                 {
-                    await command.ExecuteAsync(_client, msg);
-                    WriteToHistory($"User {msg.Author.Username} run command named **{command.Name}**");
-                }
-                catch (Exception e)
-                {
-                    await msg.Channel.SendMessageAsync("An unexpected error occured");
-                    WriteToHistory($"Error while user {msg.Author.Username} try to call command named **{command.Name}** - command error -> {e}");
-                }
+                    try
+                    {
+                        await command.ExecuteAsync(_client, msg);
+                        WriteToHistory($"User {msg.Author.Username} run command named **{command.Name}**");
+                    }
+                    catch (Exception e)
+                    {
+                        await msg.Channel.SendMessageAsync("An unexpected error occured");
+                        WriteToHistory($"Error while user {msg.Author.Username} try to call command named **{command.Name}** - command error -> {e}");
+                    }
 
-            }
-            else if (msg.Content.Contains('!'))
-            {
-                await msg.Channel.SendMessageAsync("Command not found");
-                WriteToHistory($"Error while user {msg.Author.Username} try to call command named **{msg.Content}** - command not found");
+                }
+                else if (msg.Content.StartsWith('!'))
+                {
+                    await msg.Channel.SendMessageAsync("Command not found");
+                    WriteToHistory($"Error while user {msg.Author.Username} try to call command named **{msg.Content}** - command not found");
+                }
             }
         }
 

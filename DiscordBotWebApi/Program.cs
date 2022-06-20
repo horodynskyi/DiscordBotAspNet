@@ -7,6 +7,7 @@ using Options.Shikimory;
 using Microsoft.EntityFrameworkCore;
 using Interfaces;
 using Infrastructure;
+using Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,8 @@ builder.Services
     .Configure<DanbooruOptions>(builder.Configuration.GetSection(DanbooruOptions.Title))
     .Configure<ShikimoryOptions>(builder.Configuration.GetSection(ShikimoryOptions.Title))
     .Configure<DiscordOptions>(builder.Configuration.GetSection(DiscordOptions.Title))
-    .Configure<ShikimoryClientOptions>(builder.Configuration.GetSection(ShikimoryClientOptions.Title));
+    .Configure<ShikimoryClientOptions>(builder.Configuration.GetSection(ShikimoryClientOptions.Title))
+    .Configure<SteamOptions>(builder.Configuration.GetSection(SteamOptions.Title));
 
 var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)

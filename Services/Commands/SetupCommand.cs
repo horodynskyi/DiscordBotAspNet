@@ -34,6 +34,13 @@ namespace Infrastructure.Commands
                     else if (paramets.Contains("users")) 
                     {
                         await _userService.FetchAllUsersFromDiscord(client);
+                        await _userService.RemoveUsersStatsChannel(client);
+                        await _userService.GeneratePersonalStatisticChats(client);
+                    }
+                    //Todo make stats comand
+                    else if (paramets.Contains("stats") && paramets.Contains("delete"))
+                    {
+                        await _userService.RemoveUsersStatsChannel(client);
                     }
                     else if (paramets.Contains("slashcommands"))
                     {

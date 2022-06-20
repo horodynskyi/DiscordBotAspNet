@@ -14,7 +14,7 @@ namespace Infrastructure.Commands.RandomCommands
             if (commandObj is SocketSlashCommand command)
             {
                 var danbooruService = new DanbooruService();
-                var url = await danbooruService.GetRandomArt((Int64)command.Data.Options.First().Value == 1);
+                var url = await danbooruService.GetRandomArt((int)command.Data.Options.First().Value == 1);
                 await command.RespondAsync(url ?? "Not found");
             }
             else

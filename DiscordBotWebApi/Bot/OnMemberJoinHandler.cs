@@ -31,6 +31,7 @@ namespace DiscordBotWebApi.Bot
 					PrestigeLevel = 0,
 					DiscordId = user.Id.ToString()
 				});
+				await _userService.GeneratePersonalStatisticChat(user, _client);
 				await channel.SendMessageAsync($"Это же тот самый {strings[random.Next(strings.Count)]} {user.Mention} добро пожаловать на {channel.Guild.Name}");
 			}
 		}

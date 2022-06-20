@@ -16,6 +16,72 @@ namespace Infrastructure.Services
             _repository = repository;
         }
 
+        public async Task GeneratePersonalStatisticChats(DiscordSocketClient discordSocketClient) 
+        {
+            var guild = discordSocketClient.GetGuild(873689102569054268) as IGuild;
+
+            var statsCategory = (await guild.GetCategoriesAsync()).FirstOrDefault(x => x.Name == "Stats");
+            if (statsCategory != null) 
+            {
+                await statsCategory.DeleteAsync();
+            }
+            var newStatsCategory = await guild.CreateCategoryAsync("Stats");
+
+            var users = await guild.GetUsersAsync();
+
+            foreach (var user in users.Where(x => !x.IsBot).ToList())
+            {
+                var userPrivateChannel = await guild.CreateTextChannelAsync
+                    (
+                        user.Username + " stats",
+                        x => x.CategoryId = newStatsCategory.Id
+                    );
+
+                var permissionOverrides = new OverwritePermissions(viewChannel: PermValue.Deny);
+                await userPrivateChannel.AddPermissionOverwriteAsync(guild.EveryoneRole, permissionOverrides);
+                await userPrivateChannel.AddPermissionOverwriteAsync(user, new OverwritePermissions(viewChannel: PermValue.Allow, sendMessages: PermValue.Deny));
+                await userPrivateChannel.SendMessageAsync($"Добрий день {user.Username}. Раді вітати на нашому сервері! \nТут буде знаходитись ваша персональна статистаки з цього сервера");
+            }
+        }
+
+        public async Task GeneratePersonalStatisticChat(SocketGuildUser user, DiscordSocketClient discordSocketClient) 
+        {
+            var guild = discordSocketClient.GetGuild(873689102569054268) as IGuild;
+
+            var statsCategory = (await guild.GetCategoriesAsync()).FirstOrDefault(x => x.Name == "АStats");
+
+            var users = await guild.GetUsersAsync();
+
+            var userPrivateChannel = await guild.CreateTextChannelAsync
+                        (
+                            user.Username + " stats",
+                            x => x.CategoryId = statsCategory.Id
+                        );
+
+            var permissionOverrides = new OverwritePermissions(viewChannel: PermValue.Deny);
+            await userPrivateChannel.AddPermissionOverwriteAsync(guild.EveryoneRole, permissionOverrides);
+            await userPrivateChannel.AddPermissionOverwriteAsync(user, new OverwritePermissions(viewChannel: PermValue.Allow, sendMessages: PermValue.Deny));
+            await userPrivateChannel.SendMessageAsync($"Добрий день {user.Username}. Раді вітати на нашому сервері! \nТут буде знаходитись ваша персональна статистаки з цього сервера");
+        }
+
+        public async Task RemoveUsersStatsChannel(DiscordSocketClient discordSocketClient) 
+        {
+            var guild = discordSocketClient.GetGuild(873689102569054268) as IGuild;
+            var channels = (await guild.GetChannelsAsync()).Where(x => x.Name.Contains("stats")).ToList();
+            foreach (SocketGuildChannel channel in channels)
+            {
+                await channel.DeleteAsync();
+                Console.WriteLine("Successfully deleted channel with name - " + channel.Name);
+            }
+        }
+
+        public async Task RemoveUserStatsChannel(SocketUser user, DiscordSocketClient discordSocketClient) 
+        {
+            var guild = discordSocketClient.GetGuild(873689102569054268) as IGuild;
+            var channel = (await guild.GetChannelsAsync()).FirstOrDefault(x => x.Name.Contains($"{user.Username}-stats"));
+            await channel.DeleteAsync();
+        }
+
         public async Task FetchAllUsersFromDiscord(DiscordSocketClient discordSocketClient) 
         {
             var guild = discordSocketClient.GetGuild(873689102569054268) as IGuild;
