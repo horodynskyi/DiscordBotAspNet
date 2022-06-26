@@ -23,7 +23,7 @@ namespace DiscordBotWebApi.Bot
         {
             if (!commandData.User.IsBot) 
             {
-                _userService.AddPointsFotUser(commandData.User.Id.ToString(), 1);
+                await _userService.AddPointsFotUser(commandData.User.Id.ToString(), 1);
                 var command = _commandServices.GetComand(commandData);
 
                 if (command != null)
@@ -49,7 +49,7 @@ namespace DiscordBotWebApi.Bot
 
         public async Task Handler(SocketMessage msg)
         {
-            var points = await _userService.AddPointsFotUser(msg.Author.Id.ToString(), 1);
+            await _userService.AddPointsFotUser(msg.Author.Id.ToString(), 1);
 
             var command = _commandServices.GetComand(msg);
 
@@ -79,7 +79,10 @@ namespace DiscordBotWebApi.Bot
 
         private static void WriteToHistory(string message)
         {
-            using var writer = new StreamWriter("..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\Logs\\CommandHistory.txt", true, System.Text.Encoding.Default);
+            var pathToHistory = "..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\Logs";
+            if (!Directory.Exists(pathToHistory))
+            Directory.CreateDirectory(pathToHistory);
+            using var writer = new StreamWriter(pathToHistory + "\\CommandHistory.txt", true, System.Text.Encoding.Default);
             writer.WriteLine(DateTime.Now.ToString("dd/MM/yyyy:H:m") + $" - {message}");
         }
     }

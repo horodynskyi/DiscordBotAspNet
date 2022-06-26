@@ -1,13 +1,13 @@
 using DiscordBotWebApi.Bot;
 using DiscordBotWebApi.Options;
+using Infrastructure;
 using Infrastructure.Database;
 using Infrastructure.Services;
+using Infrastructure.Services.BackgroundServices;
+using Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Options.Shikimory;
-using Microsoft.EntityFrameworkCore;
-using Interfaces;
-using Infrastructure;
-using Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +15,7 @@ builder.Services
     .Configure<DanbooruOptions>(builder.Configuration.GetSection(DanbooruOptions.Title))
     .Configure<ShikimoryOptions>(builder.Configuration.GetSection(ShikimoryOptions.Title))
     .Configure<DiscordOptions>(builder.Configuration.GetSection(DiscordOptions.Title))
-    .Configure<ShikimoryClientOptions>(builder.Configuration.GetSection(ShikimoryClientOptions.Title))
-    .Configure<SteamOptions>(builder.Configuration.GetSection(SteamOptions.Title));
+    .Configure<ShikimoryClientOptions>(builder.Configuration.GetSection(ShikimoryClientOptions.Title));
 
 var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -31,6 +30,7 @@ builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<AdminService>();
 builder.Services.AddTransient<ShikimoryService>();
 builder.Services.AddTransient<CommandService>();
+builder.Services.AddHostedService<UpdateUserStatisticHostedServices>();
 
 builder.Services.AddClient(configuration);
 
