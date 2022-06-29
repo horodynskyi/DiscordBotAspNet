@@ -30,7 +30,7 @@ builder.Services.AddTransient<CommandsHandler>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<AdminService>();
 builder.Services.AddTransient<ShikimoryService>();
-builder.Services.AddTransient<GenericGetService>();
+builder.Services.AddTransient<GetService>();
 builder.Services.AddTransient<CommandService>();
 builder.Services.AddHostedService<UpdateUserStatisticHostedServices>();
 

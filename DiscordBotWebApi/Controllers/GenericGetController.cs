@@ -9,9 +9,9 @@ namespace DiscordBotWebApi.Controllers
 	[Route("[controller]")]
 	public class GenericGetController : ControllerBase
 	{
-		private readonly GenericGetService _genericGetService;
+		private readonly GetService _genericGetService;
 
-		public GenericGetController(GenericGetService genericGetService) 
+		public GenericGetController(GetService genericGetService) 
 		{
 			_genericGetService = genericGetService;
 		}
