@@ -2,15 +2,15 @@
 
 namespace Infrastructure.Services.Administration
 {
-	public class GenericGetService
+	public class GetService
 	{
 		private readonly UserService _userService;
 
-		public GenericGetService(UserService userService)
+		public GetService(UserService userService)
 		{
 			_userService = userService;
 		}
-		//This metod was created in live share mode by 2 clowns
+
 		public async Task<List<object>> GetAllAsync(Type type)
 		{
 			var result = new List<object>();
@@ -19,6 +19,13 @@ namespace Infrastructure.Services.Administration
 				foreach (var user in await _userService.GetAllUsers())
 				{
 					result.Add(user);
+				}
+			} 
+			else if (type == typeof(DiscordRole))
+			{
+				foreach (var role in await _userService.GetAllRoles())
+				{
+					result.Add(role);
 				}
 			}
 

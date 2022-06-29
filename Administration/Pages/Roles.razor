@@ -1,7 +1,99 @@
 ﻿@page "/roles"
+@inject HttpClient HttpClient
 
-<h3>Roles</h3>
+<style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  background-color: #fafafa;
+}
+
+td, th { padding: 8px; padding: .5rem;
+}
+
+th {
+  text-align: left;
+  font-weight: 300;
+  font-size: 20px;
+  font-size: 1.25rem;
+}
+
+td { font-family: 'Avenir Next', 'Segoe UI', 'Lucida Grande', sans-serif; max-width: 200px}
+
+.table {
+  width: 100%;
+  padding: 16px;
+  padding: 1rem;
+  word-break: break-all;
+}
+
+.table__heading { border-bottom: 2px solid #FFC842; }
+
+h1, h4 {
+  margin: 50px auto 50px auto;
+  text-align: center;
+}
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+@if(discordRoles != null)
+@if (discordRoles.Any())
+{
+    <table class="table">
+  <tr>
+    <th class="table__heading">Id</th>
+    <th class="table__heading">DiscordId</th>
+    <th class="table__heading">Name</th>
+    <th class="table__heading">Management</th>
+  </tr>
+     @foreach(var role in discordRoles)
+    {
+        <tr>
+            <td class="table__content" data-heading="Id">@role.Id</td>
+            <td class="table__content" data-heading="DiscordId">@role.DiscordId</td>
+            <td class="table__content" data-heading="Name">@role.Name</td>
+            <td class="table__content" data-heading="Management">
+                @if (!listOfBools[(int)role.Id-1])
+                {
+                    <button class="btn" @onclick="@(e => update(true, (int)role.Id))"><i class="fa fa-pencil"></i></button>
+                }
+                else
+                {
+                    <button class="btn" @onclick="@(e => update(false, (int)role.Id))"><i class="fa fa-check"></i></button>
+                }
+            </td>
+        </tr>
+    } 
+    </table>
+} 
+else
+{
+    <h1>Loading...</h1>
+}
 
 @code {
+    List<DiscordRole> discordRoles = null;
+    List<bool> listOfBools = new();
 
+    public void update(bool edit, int i)
+    {
+        listOfBools[i-1] = edit;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        discordRoles = await HttpClient.GetFromJsonAsync<List<DiscordRole>>("https://localhost:7160/GenericGet/DiscordRole");
+        for (int i = 0; i < discordRoles.Count; i++)
+        {
+            listOfBools.Add(false);
+        }
+    }
 }

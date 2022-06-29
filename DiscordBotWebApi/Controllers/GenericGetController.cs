@@ -9,11 +9,11 @@ namespace DiscordBotWebApi.Controllers
 	[Route("[controller]")]
 	public class GenericGetController : ControllerBase
 	{
-		private readonly GetService _genericGetService;
+		private readonly GetService _getService;
 
-		public GenericGetController(GetService genericGetService) 
+		public GenericGetController(GetService getService) 
 		{
-			_genericGetService = genericGetService;
+			_getService = getService;
 		}
 
 		[HttpGet("{type}")]
@@ -29,7 +29,7 @@ namespace DiscordBotWebApi.Controllers
 
 			if (resType is not null)
 			{
-				var res = await _genericGetService.GetAllAsync(resType);
+				var res = await _getService.GetAllAsync(resType);
 				return Ok(res);
 			} 
 			else 

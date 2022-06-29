@@ -1,19 +1,20 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Infrastructure.Database;
 using Infrastructure.Specifications;
 using Interfaces;
 using Models;
 
 namespace Infrastructure.Services
-{    
-    public class UserService
+{
+	public class UserService
     {
         private readonly IRepository<DiscordUser> _repository;
+        private readonly IRepository<DiscordRole> _roleRepository;
 
-        public UserService(IRepository<DiscordUser> repository)
+		public UserService(IRepository<DiscordUser> repository, IRepository<DiscordRole> roleRepository)
         {
             _repository = repository;
+            _roleRepository = roleRepository;
         }
 
         public async Task GeneratePersonalStatisticChats(DiscordSocketClient discordSocketClient) 
@@ -100,11 +101,35 @@ namespace Infrastructure.Services
             }
         }
 
+        public async Task FetchAllRolesFromDiscord(DiscordSocketClient discordSocketClient)
+        {
+            var guild = discordSocketClient.GetGuild(873689102569054268) as IGuild;
+            var roles = guild.Roles;
+            foreach (var role in roles)
+            {
+                var tmpRole = new DiscordRole
+                {
+                    DiscordId = role.Id,
+                    Name = role.Name
+                };
+
+                await AddRole(tmpRole);
+            }
+        }
+
         public async Task AddUser(DiscordUser discordUser) 
         {
             if (await _repository.GetBySpecAsync(new CheckIsUserExistSpec(discordUser.DiscordId)) == null)
             {
                 await _repository.AddAsync(discordUser);
+            }
+        }
+
+        public async Task AddRole(DiscordRole role)
+        {
+            if (await _roleRepository.GetBySpecAsync(new CheckIsRoleExistSpec(role.DiscordId)) == null)
+            {
+                await _roleRepository.AddAsync(role);
             }
         }
 
@@ -126,6 +151,11 @@ namespace Infrastructure.Services
         public async Task<List<DiscordUser>> GetAllUsers()
         {
             return await _repository.ListAsync();
+        }
+
+        public async Task<List<DiscordRole>> GetAllRoles()
+        {
+            return await _roleRepository.ListAsync();
         }
     }
 }

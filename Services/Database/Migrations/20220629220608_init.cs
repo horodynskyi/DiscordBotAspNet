@@ -4,7 +4,7 @@
 
 namespace Infrastructure.Migrations
 {
-    public partial class iniy : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,12 @@ namespace Infrastructure.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DiscordId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    UserId = table.Column<decimal>(type: "decimal(20,0)", nullable: true),
+                    DiscordUserId = table.Column<decimal>(type: "decimal(20,0)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

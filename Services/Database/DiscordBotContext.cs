@@ -8,7 +8,7 @@ namespace Infrastructure.Database
         public DiscordBotContext() { }
         public DiscordBotContext(DbContextOptions<DiscordBotContext> options) : base(options) { }
         public DbSet<DiscordUser> Users => Set<DiscordUser>();
-        public DbSet<Role> Roles => Set<Role>();
+        public DbSet<DiscordRole> Roles => Set<DiscordRole>();
         public DbSet<UserRoles> UserRoles => Set<UserRoles>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

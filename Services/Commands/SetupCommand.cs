@@ -30,10 +30,12 @@ namespace Infrastructure.Commands
                     {
                         await SetupSlashCommands(client, commandObj as SocketMessage);
                         await _userService.FetchAllUsersFromDiscord(client);
+                        await _userService.FetchAllRolesFromDiscord(client);
                     } 
                     else if (paramets.Contains("users")) 
                     {
                         await _userService.FetchAllUsersFromDiscord(client);
+                        await _userService.FetchAllRolesFromDiscord(client);
                         await _userService.RemoveUsersStatsChannel(client);
                         await _userService.GeneratePersonalStatisticChats(client);
                     }
