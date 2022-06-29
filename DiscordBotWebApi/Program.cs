@@ -3,6 +3,7 @@ using DiscordBotWebApi.Options;
 using Infrastructure;
 using Infrastructure.Database;
 using Infrastructure.Services;
+using Infrastructure.Services.Administration;
 using Infrastructure.Services.BackgroundServices;
 using Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,7 @@ builder.Services.AddTransient<CommandsHandler>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<AdminService>();
 builder.Services.AddTransient<ShikimoryService>();
+builder.Services.AddTransient<GenericGetService>();
 builder.Services.AddTransient<CommandService>();
 builder.Services.AddHostedService<UpdateUserStatisticHostedServices>();
 
@@ -38,6 +40,16 @@ builder.Services.AddClient(configuration);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "_myAllowSpecificOrigins",
+                      policy =>
+                      {
+                          policy.WithOrigins("https://localhost:7208",
+                                              "http://localhost:5208");
+                      });
+});
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -59,6 +71,8 @@ app.UseSwaggerUI(options =>
 });
 
 app.UseRouting();
+app.UseCors("_myAllowSpecificOrigins");
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

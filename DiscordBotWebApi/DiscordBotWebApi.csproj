@@ -21,4 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Services\Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\" />
+  </ItemGroup>
 </Project>
