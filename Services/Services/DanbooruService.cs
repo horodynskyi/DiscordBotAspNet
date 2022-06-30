@@ -6,15 +6,16 @@ namespace Infrastructure.Services
     {
         private readonly HttpClient _httpClient = new();   
 
-        public async Task<String> GetRandomArt(bool? cencorship = false) 
+        public async Task<String> GetRandomArt(bool cencorship = false) 
         {
-            String domain;
-            if ((bool)cencorship)
+            string domain;
+
+            if (cencorship)
                 domain = "https://danbooru.donmai.us/";
             else
                 domain = "https://safebooru.donmai.us/";
 
-            Console.WriteLine("cens = " + !(bool)cencorship + " domain " + domain);
+            Console.WriteLine("cens = " + !cencorship + " domain " + domain);
             var res = await _httpClient.GetAsync(domain + "posts/random.json");
             var data = JsonSerializer.Deserialize<Dictionary<string, object>>(await res.Content.ReadAsStringAsync());
             var fileUrlDictionary = data.FirstOrDefault(x => x.Key == "file_url");
@@ -28,15 +29,15 @@ namespace Infrastructure.Services
             return data["file_url"].ToString();
         }
 
-        public async Task<String> GetArt(String tags, bool? cencorship = false)
+        public async Task<String> GetArt(String tags, bool cencorship = false)
         {
             String domain;
-            if ((bool)cencorship)
+            if (cencorship)
                 domain = "https://danbooru.donmai.us/";
             else
                 domain = "https://safebooru.donmai.us/";
 
-            Console.WriteLine("cens = " + !(bool)cencorship + " domain " + domain);
+            Console.WriteLine("cens = " + !cencorship + " domain " + domain);
             var res = await _httpClient.GetAsync(domain + $"posts/random.json?tags={tags}");
             var data = JsonSerializer.Deserialize<Dictionary<string, object>>(await res.Content.ReadAsStringAsync());
             var fileUrlDictionary = data.FirstOrDefault(x => x.Key == "file_url");

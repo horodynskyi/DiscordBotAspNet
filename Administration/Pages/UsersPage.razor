@@ -94,7 +94,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Users = await HttpClient.GetFromJsonAsync<List<DiscordUser>>("https://localhost:7160/GenericGet/DiscordUser");
+        Users = await HttpClient.GetFromJsonAsync<List<DiscordUser>>("https://localhost:7160/Get/DiscordUser");
         for (int i = 0; i < Users.Count; i++)
         {
             listOfBools.Add(false);

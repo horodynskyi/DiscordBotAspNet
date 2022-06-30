@@ -13,19 +13,21 @@ namespace Infrastructure.Commands
         {
             if (commandObj is SocketSlashCommand command)
             {
-                var _adminService = new AdminService();
-                var adminId = await AdminService.GetAdminDataAsync();
-                if (command.User.Id == ulong.Parse(adminId))
+                if (command.User.Id == ulong.Parse("783264879826042900"))
                 {
                     await command.RespondAsync("Clearing starded");
                     var channel = client.GetChannel(command.Channel.Id) as SocketTextChannel;
                     var messages = await channel.GetMessagesAsync().FlattenAsync();
-                    await((ITextChannel)channel).DeleteMessagesAsync(messages.Where(x => x.Timestamp >= DateTimeOffset.Now.Subtract(TimeSpan.FromDays(14))));
+                    await ((ITextChannel)channel).DeleteMessagesAsync(messages.Where(x => x.Timestamp >= DateTimeOffset.Now.Subtract(TimeSpan.FromDays(14))));
                     await command.Channel.SendMessageAsync("Clearing success");
+                }
+                else
+                {
+                    await command.RespondAsync("Чел ти");
                 }
             }
             else
-            {
+            {             
                 return;
             }
         }

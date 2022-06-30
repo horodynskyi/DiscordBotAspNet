@@ -1,5 +1,5 @@
-﻿using Infrastructure.Services.Administration;
-using Microsoft.AspNetCore.Http;
+﻿using Discord.WebSocket;
+using Infrastructure.Services.Administration;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
@@ -7,17 +7,17 @@ namespace DiscordBotWebApi.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
-	public class GenericGetController : ControllerBase
+	public class GetController : ControllerBase
 	{
 		private readonly GetService _getService;
 
-		public GenericGetController(GetService getService) 
+		public GetController(GetService getService) 
 		{
 			_getService = getService;
 		}
 
 		[HttpGet("{type}")]
-		public async Task<IActionResult> GetAllAsync(string type)//This metod was created in live share mode by 2 clowns
+		public async Task<IActionResult> GetAllAsync(string type)
 		{
 			Type resType = null;
 			foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())

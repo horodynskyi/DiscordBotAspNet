@@ -1,5 +1,6 @@
 using DiscordBotWebApi.Bot;
 using DiscordBotWebApi.Options;
+using DTOModels;
 using Infrastructure;
 using Infrastructure.Database;
 using Infrastructure.Services;
@@ -28,14 +29,13 @@ builder.Services.AddDbContext<DiscordBotContext>(options =>
 builder.Services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddTransient<CommandsHandler>();
 builder.Services.AddTransient<UserService>();
-builder.Services.AddTransient<AdminService>();
 builder.Services.AddTransient<ShikimoryService>();
 builder.Services.AddTransient<GetService>();
 builder.Services.AddTransient<CommandService>();
+builder.Services.AddTransient<TokenService>();
 builder.Services.AddHostedService<UpdateUserStatisticHostedServices>();
-
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddClient(configuration);
-
 
 builder.Services.AddControllers();
 

@@ -79,7 +79,7 @@ namespace DiscordBotWebApi.Bot
 
         private static void WriteToHistory(string message)
         {
-            var pathToHistory = "..\\..\\DiscordBotAspNet\\DiscordBotWebApi\\Bot\\Logs";
+            var pathToHistory = "..\\DiscordBotWebApi\\Bot\\Logs";
             if (!Directory.Exists(pathToHistory))
             Directory.CreateDirectory(pathToHistory);
             using var writer = new StreamWriter(pathToHistory + "\\CommandHistory.txt", true, System.Text.Encoding.Default);

@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Infrastructure.Database;
 using Infrastructure.Specifications;
 using Interfaces;
 using Models;
@@ -10,11 +11,13 @@ namespace Infrastructure.Services
     {
         private readonly IRepository<DiscordUser> _repository;
         private readonly IRepository<DiscordRole> _roleRepository;
+        private readonly DiscordBotContext _discordBotContext;
 
-		public UserService(IRepository<DiscordUser> repository, IRepository<DiscordRole> roleRepository)
+		public UserService(IRepository<DiscordUser> repository, IRepository<DiscordRole> roleRepository, DiscordBotContext discordBotContext)
         {
             _repository = repository;
             _roleRepository = roleRepository;
+            _discordBotContext = discordBotContext;
         }
 
         public async Task GeneratePersonalStatisticChats(DiscordSocketClient discordSocketClient) 
@@ -131,6 +134,19 @@ namespace Infrastructure.Services
             {
                 await _roleRepository.AddAsync(role);
             }
+        }
+
+        public async Task UpdateRole(DiscordRole role)
+        {
+            //Todo fix update
+            await _roleRepository.UpdateAsync(role);
+        } 
+
+
+        public async Task RemoveRole(ulong roleId) 
+        {
+            var role = (await _roleRepository.ListAsync()).FirstOrDefault(x => x.DiscordId == roleId);
+            await _roleRepository.DeleteAsync(role);
         }
 
         public async Task<int> AddPointsFotUser(string userId, int pointsCount)

@@ -12,7 +12,7 @@ namespace Infrastructure.Services
     {
         public List<ICommand> Commands { get; }
 
-        public CommandService(ShikimoryService shikimoryService, UserService userService)
+        public CommandService(ShikimoryService shikimoryService, UserService userService, TokenService tokenService)
         {
             Commands = new List<ICommand>{
                new RandomCommand(),
@@ -25,6 +25,7 @@ namespace Infrastructure.Services
                new RandomAnimeArt(),
                new SearchAnimeCommand(shikimoryService),
                new JoinToVoiceChat(),
+               new TestCipherCommand(tokenService),
             };
         }
 

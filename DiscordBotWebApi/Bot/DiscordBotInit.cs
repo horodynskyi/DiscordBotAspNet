@@ -24,6 +24,9 @@ namespace DiscordBotWebApi.Bot
             client.SlashCommandExecuted += new CommandsHandler(client, commandService, userService).Handler;
             client.UserJoined += new OnMemberJoinHandler(client, userService).MessageSender;
             client.UserLeft += new OnMemberLeftHandler(client, userService).Handler;
+            client.RoleCreated += new OnRoleCreatedHandler(userService).Handler;
+            client.RoleDeleted += new OnRoleDeleteHandler(userService).Handler;
+            client.RoleUpdated += new OnRoleUpdateHandler(userService).Handler;
             client.Ready += OnReadyAsync;
 
             client.SetGameAsync("Refactoring facebook API");

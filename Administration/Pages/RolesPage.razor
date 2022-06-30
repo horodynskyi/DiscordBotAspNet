@@ -53,20 +53,19 @@ h1, h4 {
     <th class="table__heading">Name</th>
     <th class="table__heading">Management</th>
   </tr>
-     @foreach(var role in discordRoles)
+     @foreach(var roleData in discordRoles)
     {
         <tr>
-            <td class="table__content" data-heading="Id">@role.Id</td>
-            <td class="table__content" data-heading="DiscordId">@role.DiscordId</td>
-            <td class="table__content" data-heading="Name">@role.Name</td>
+            <td class="table__content" data-heading="DiscordId">@roleData.discordRole.DiscordId</td>
+            <td class="table__content" data-heading="Name">@roleData.discordRole.Name</td>
             <td class="table__content" data-heading="Management">
-                @if (!listOfBools[(int)role.Id-1])
+                @if (!roleData.edit)
                 {
-                    <button class="btn" @onclick="@(e => update(true, (int)role.Id))"><i class="fa fa-pencil"></i></button>
+                    <button class="btn" @onclick="@(e => update(true, roleData))"><i class="fa fa-pencil"></i></button>
                 }
                 else
                 {
-                    <button class="btn" @onclick="@(e => update(false, (int)role.Id))"><i class="fa fa-check"></i></button>
+                    <button class="btn" @onclick="@(e => update(false, roleData))"><i class="fa fa-check"></i></button>
                 }
             </td>
         </tr>
@@ -79,21 +78,29 @@ else
 }
 
 @code {
-    List<DiscordRole> discordRoles = null;
-    List<bool> listOfBools = new();
+    List<RolesData> discordRoles = new();
 
-    public void update(bool edit, int i)
+    public class RolesData
     {
-        listOfBools[i-1] = edit;
+        public DiscordRole discordRole { get; set; }
+        public bool edit { get; set; }
+    }
+
+    public void update(bool edit, RolesData roleData)
+    {
+        roleData.edit = edit;
         StateHasChanged();
     }
 
     protected override async Task OnInitializedAsync()
     {
-        discordRoles = await HttpClient.GetFromJsonAsync<List<DiscordRole>>("https://localhost:7160/GenericGet/DiscordRole");
-        for (int i = 0; i < discordRoles.Count; i++)
+        var roles = await HttpClient.GetFromJsonAsync<List<DiscordRole>>("https://localhost:7160/Get/DiscordRole");
+        foreach (var role in roles)
         {
-            listOfBools.Add(false);
+            discordRoles.Add(new RolesData(){
+                discordRole = role,
+                edit = false
+            });
         }
     }
 }

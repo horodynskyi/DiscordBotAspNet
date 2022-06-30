@@ -8,7 +8,7 @@ namespace Infrastructure.Services.BackgroundServices
 	public class UpdateUserStatisticHostedServices : IHostedService, IDisposable
 	{
 
-        private Timer? _timer = null;
+        private Timer _timer = null;
 		private readonly DiscordSocketClient _client;
         private readonly IServiceProvider _serviceProvider;
 

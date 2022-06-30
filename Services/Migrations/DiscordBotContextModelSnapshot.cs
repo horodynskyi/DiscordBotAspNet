@@ -21,14 +21,33 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Models.DiscordRole", b =>
+            modelBuilder.Entity("Models.Administrator", b =>
                 {
-                    b.Property<decimal>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("ConfirmEmail")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("GuildId")
                         .HasColumnType("decimal(20,0)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<decimal>("Id"), 1L, 1);
+                    b.Property<string>("Nickname")
+                        .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Administrators");
+                });
+
+            modelBuilder.Entity("Models.DiscordRole", b =>
+                {
                     b.Property<decimal>("DiscordId")
                         .HasColumnType("decimal(20,0)");
 
@@ -41,7 +60,7 @@ namespace Infrastructure.Migrations
                     b.Property<decimal?>("UserId")
                         .HasColumnType("decimal(20,0)");
 
-                    b.HasKey("Id");
+                    b.HasKey("DiscordId");
 
                     b.ToTable("Roles");
                 });
